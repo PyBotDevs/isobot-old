@@ -20,3 +20,4 @@ If you are on a machine with Linux, run linux_installer.sh.
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
 # More features coming soon. To be notified of them, please Watch this repository.
+README.md pulled from https://github.com/sniperking3335/heckerbot
