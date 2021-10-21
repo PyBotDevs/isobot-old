@@ -7,8 +7,8 @@ Also put your discord id in the "ids" array. To get your id, run ?userinfo or au
 Also is in the first lines of the code.
 
 # How to install
-To install for windows, simply run windows_install.bat.
-If you are on a machine with Linux, run linux_install.sh.
+To install for windows, simply run windows_installer.bat.
+If you are on a machine with Linux, run linux_installer.sh.
 
 # features
 • A working currency system using 'pickle' module.
