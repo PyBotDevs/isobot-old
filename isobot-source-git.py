@@ -33,16 +33,23 @@ bad = [
     'motherfucker',
     'fuckyou',
     'bitch',
+    'cum',
     'shit',
     's‌hit', ### Contains special character ###
-    'Shi‌t',
+    'shi‌t',
     'dick',
     'pussy',
     'boob',
     'FUCΚ', ### Greek K ###
     'Fu‌ck',
     'fucκ', # Greek #
-    'shiτ' # Greek again .-. #
+    'shiτ', # Greek again .-. #,
+    'sex',
+    'penis'
+]
+whitelist = [
+    'document',
+    'cucumber'
 ]
 console = False
 log = True
@@ -62,9 +69,9 @@ if con == 1:
 elif con == 2:
     log = not log
 intents = discord.Intents.all()
-errHandlerVer = 'v1.1'
-botVer = 'v1.3'
-currencyVer = 'v1.0'
+errHandlerVer = 'v2.3'
+botVer = 'v4.0.1'
+currencyVer = 'v1.1'
 if os.name == 'nt':
     os.system('cls')
 else:
@@ -96,6 +103,8 @@ buy = True
 networth = True
 lbin = True
 ah = True
+theme_color_old = 0x8124af # replace 'theme_color_old' with 'theme_color' on November 1 2021
+theme_color = 0xeb6123 # Halloween special color ONLY
 ### Functions and classes ###
 if os.name == 'nt':
     data_filename = homedir + "\\database.pickle"
@@ -260,41 +269,58 @@ async def on_command_error(ctx, error):
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
     if isinstance(error, CommandNotFound):
-        pass
+        if os.name == 'nt':
+            with open('F:\\bot\\logs\\errors.txt', 'a') as f:
+                f.write(f'[{current_time}] Ignoring exception at CommandNotFound. Details: This command does not exist.\n')
+                f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}CommandNotFound{colors.end}. Details: This command does not exist. {colors.red}The user was not notified of this error. This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
+        else:
+            pass
     if isinstance(error, CommandOnCooldown):
         await ctx.send(f'This command is on cooldown. Please try after {math.ceil(error.retry_after)} seconds')
         if os.name == 'nt':
             with open('F:\\bot\\logs\\errors.txt', 'a') as f:
-                f.write(f'[{current_time}]Ignoring exception at CommandOnCooldown. Details: This command is currently on cooldown\n')
+                f.write(f'[{current_time}] Ignoring exception at CommandOnCooldown. Details: This command is currently on cooldown.\n')
                 f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}CommandOnCooldown{colors.end}. Details: This command is currently on cooldown. {colors.red}This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
         else:
             pass
     if isinstance(error, MissingRequiredArgument):
         await ctx.send('Missing required argument(s)')
         if os.name == 'nt':
             with open('F:\\bot\\logs\\errors.txt', 'a') as f:
-                f.write(f'[{current_time}]Ignoring exception at MissingRequiredArgument. Details: The command can\'t be executed because required arguments are missing\n')
+                f.write(f'[{current_time}] Ignoring exception at MissingRequiredArgument. Details: The command can\'t be executed because required arguments are missing.\n')
                 f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}MissingRequiredArgument{colors.end}. Details: The command can\'t be executed because required arguments are missing. {colors.red}This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
         else:
             pass
     if isinstance(error, MissingPermissions):
         await ctx.send('You dont have permissions to use this')
         if os.name == 'nt':
             with open('F:\\bot\\logs\\errors.txt', 'a') as f:
-                f.write(f'[{current_time}]Ignoring exception at MissingPermissions. Details: The user doesn\'t have the required permissions')
+                f.write(f'[{current_time}] Ignoring exception at MissingPermissions. Details: The user doesn\'t have the required permissions.\n')
                 f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}MissingPermissions{colors.end}. Details: The user doesn\'t have the required permissions. {colors.red}This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
         else:
             pass
     if isinstance(error, BadArgument):
         await ctx.send('Invalid argument')
         if os.name == 'nt':
             with open('F:\\bot\\logs\\errors.txt', 'a') as f:
-                f.write(f'[{current_time}]Ignoring exception at BadArgument')
+                f.write(f'[{current_time}] Ignoring exception at BadArgument.\n')
                 f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}BadArgument{colors.end}. {colors.red}This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
         else:
             pass
     if isinstance(error, BotMissingPermissions):
         await ctx.send('I don\'t have the required permissions to use this.')
+        if os.name == 'nt':
+            with open('F:\\bot\\logs\\errors.txt', 'a') as f:
+                f.write(f'[{current_time}] Ignoring exception at BotMissingPermissions.\n Details: The bot doesn\'t have the required permissions.\n')
+                f.close()
+                print(f'[{current_time}] Ignoring exception at {colors.green}BotMissingPremissions{colors.end}. Details: The bot doesn\'t have the required permissions. {colors.red}This error was logged at \'F:\\bot\\logs\\errors.txt\'{colors.end}')
+        else:
+            pass
 # Error handler end #
 
 snipe_message_author = {}
@@ -313,8 +339,13 @@ async def on_message_delete(message):
         #     f.write(f'[{current_time}]Message deleted by {snipe_message_author[channel.id]}.\n   Content:{snipe_message_content[channel.id]}\n')
         #     f.close()
         if message.guild.id == 880409977074888714:
-            c = client.get_channel(898403641206132736)
-            em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
+            c = client.get_channel(897387063576506379)
+            em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=0xFFBF00)
+            em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
+            await c.send(embed = em)
+        elif message.guild.id == 876826249207640096:
+            c = client.get_channel(881181406582165525)
+            em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=0xFFBF00)
             em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
             await c.send(embed = em)
         else:
@@ -337,7 +368,7 @@ async def on_message_edit(message_before, message_after):
         await channel.send(f'{message_after.author.mention} watch your language.')
     if bool(log):
         if guild == 880409977074888714:
-            c = client.get_channel(881199227190013992)
+            c = client.get_channel(897387314609786880)
             em = discord.Embed(description = f"**Message before**: {message_before.content}\n**Message after**: {message_after.content}")
             em.set_footer(text = f"This message was edited by {message_before.author} in {channel}")
             await c.send(embed = em)
@@ -350,11 +381,13 @@ async def on_message_edit(message_before, message_after):
 async def on_member_join(member):
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
+    guild = member.guild.name
     if bool(log) == True:
         if os.name == 'nt':
             with open('F:\\bot\\logs\\log.txt', 'a') as f:
-                f.write(f'[{current_time}]{member} joined {guild.name}\n')
+                f.write(f'[{current_time}]{member} joined {guild}\n')
                 f.close()
+            print(f'[{current_time}] {colors.cyan}{member}{colors.end} joined {colors.green}{guild}{colors.end}')
         else:
             pass
     else:
@@ -364,11 +397,13 @@ async def on_member_join(member):
 async def on_member_remove(member):
     now = datetime.datetime.now()
     current_time = now.strftime("%H:%M:%S")
+    guild = member.guild.name
     if bool(log) == True:
         if os.name == 'nt':
             with open('F:\\bot\\logs\\log.txt', 'a') as f:
-                f.write(f'[{current_time}]{member}{colors.end} left {guild.name}\n')
+                f.write(f'[{current_time}]{member}{colors.end} left {guild}\n')
                 f.close()
+            print(f'[{current_time}] {colors.cyan}{member}{colors.end} left {colors.green}{guild}{colors.end}')
         else:
             pass
     else:
@@ -431,14 +466,16 @@ async def on_message(message):
 
 @client.event
 async def on_message(message):
-    #if not message.author.bot:
-    if any(x in message.content.lower() for x in bad):
-        await message.delete()
-        await message.channel.send(f'{message.author.mention} watch your language')
+    if not message.author.bot:
+        if any(x in message.content.lower() for x in whitelist):
+            pass
+        elif any(x in message.content.lower() for x in bad):
+            await message.delete()
+            await message.channel.send(f'{message.author.mention} watch your language.')
+        else:
+            pass
     else:
         pass
-    #else:
-    #    pass
 
     await client.process_commands(message)
 
@@ -514,19 +551,19 @@ async def rank(ctx, user : discord.User=None):
 @client.command()
 async def add_xp(ctx, user : discord.User, *, arg1):
     if ctx.message.author.id not in ids:
-        await ctx.reply(f'101% sure that this command doesn\'t exist :eyes:')
+        await ctx.reply(f'I am 101% sure this command doesn\'t exist :eyes:')
     else:
         if arg1.isdigit:
             member_data = load_member_data(user.id)
             member_data.xp += int(arg1)
             save_member_data(user.id, member_data)
         else:
-            await ctx.reply(f'{arg1} is not a number')
+            await ctx.reply(f'**{arg1}** is not a number lol')
 
 @client.command()
 async def edit_snipe(ctx):
     try:
-        em = discord.Embed(description=f'**Message before**: {before}\n**Message after**:{after}')
+        em = discord.Embed(description=f'**Message before**: {before}\n**Message after**:{after}', color=theme_color)
         em.set_footer(text=f'This message was edited by {author}')
         await ctx.send(embed = em)
     except:
@@ -546,8 +583,8 @@ async def add_lvl(ctx, user : discord.User, *, arg1):
 
 @client.command()
 async def invite(ctx):
-    await ctx.reply("https://discord.com/api/oauth2/authorize?client_id=896437848176230411&permissions=8&scope=bot")
-    #await ctx.reply("https://discord.com/api/oauth2/authorize?client_id=881092078132670484&permissions=0&scope=bot")
+    inviteLink = 'https://discord.com/api/oauth2/authorize?client_id=896437848176230411&permissions=8&scope=bot'
+    await ctx.reply(f'Invite isobot to your server with this link >> {inviteLink}')
 
 @client.command()
 async def amogus(ctx):
@@ -556,10 +593,7 @@ async def amogus(ctx):
 @client.command()
 async def say(ctx, *, text):
     await ctx.message.delete()
-    if text == '-null':
-        await ctx.send('     ')
-    else:
-        await ctx.send(f'{text}')
+    await ctx.send(f'{text}')
 
 @client.command()
 async def uptime(ctx):
@@ -570,15 +604,20 @@ async def uptime(ctx):
 async def snipe(ctx):
     channel = ctx.channel
     try:
-        em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
-        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
-        await ctx.send(embed = em)
+        if any(x in snipe_message_content[channel.id] for x in bad):
+            em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = f'||{snipe_message_content[channel.id]}||', color=0xcf1515)
+            em.set_footer(text = f"WARNING! THIS MESSAGE CONTAINS PROFANE TEXT! This message was sent by {snipe_message_author[channel.id]}")
+            await ctx.send(embed = em)
+        else:
+            em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id], color=theme_color)
+            em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
+            await ctx.send(embed = em)
     except:
         await ctx.send(f"There are no recently deleted messages in #{channel.name}")
 
 @client.command()
 async def whoAmI(ctx):
-    await ctx.send(f"I am: {client.user.name}\nMy id is: {client.user.id}\nMy developer is: {owner}\nMy ping is {client.latency}ms\nYour name is: {'saneite#5077 (not my dev)' if ctx.message.author.id == 795986008680300565 else ctx.message.author}\nYour id is: {ctx.message.author.id}")
+    await ctx.send(f"I am: {client.user.name}\nMy id is: {client.user.id}\nMy developer is: {owner}\nMy ping is {round(client.latency * 1000)}ms\nYour name is: {'saneite#5077 (not my dev)' if ctx.message.author.id == 795986008680300565 else ctx.message.author}\nYour id is: {ctx.message.author.id}")
 
 @client.command()
 async def ping(ctx):
@@ -586,16 +625,16 @@ async def ping(ctx):
     current_time = now.strftime("%H:%M:%S")
     await ctx.send(f'Pong! My ping is {round(client.latency * 1000)}ms')
     if bool(log) == True:
-        # with open('F:\\bot\\logs\\log.txt', 'a') as f:
-        #     f.write(f'[{current_time}]Bot ping is {round(client.latency * 1000)}ms\n')
-        #     f.close()
+        with open('F:\\bot\\logs\\log.txt', 'a') as f:
+            f.write(f'[{current_time}] Bot ping is {round(client.latency * 1000)}ms\n')
+            f.close()
         pass
     else:
         return
 
 @client.command()
 async def help(ctx):
-    helpEmbed = discord.Embed(title='**MY COMMAND LIST**', description='My Brackets are **;**\n\nEconomy:\nwork, beg, bal, dep, with, hunt, fish, daily, weekly, monthly, postmeme\n\nBot Information:\nping, invites, whoAmI, invite, uptime\n\nModeration:\nban, kick, nuke\n\nMisc:\n8ball, slap, kill, uwu, snipe, edit_snipe, meme, linuxmeme, softwaregore, ihadastroke, amogus, fstab, say', color=0x8124af)
+    helpEmbed = discord.Embed(title='**MY COMMAND LIST**', description='My Brackets are **;**\n\nEconomy:\nwork, beg, bal, dep, with, give, hunt, fish, daily, weekly, monthly, postmeme\n\nBot Information:\nping, invites, whoAmI, invite, uptime\n\nModeration:\nban, kick, lock, unlock, nuke\n\nMisc:\n8ball, slap, kill, uwu, snipe, edit_snipe, meme, linuxmeme, nothecker, aww, softwaregore, ihadastroke, amogus, fstab, say', color=theme_color)
     await ctx.send(embed = helpEmbed)
 
 @client.command(aliases=['8ball'])
@@ -644,38 +683,67 @@ async def nuke(ctx, channel: discord.TextChannel = None):
         await new_channel.send("This channel has been nuked!")
         await ctx.send("Nuked the Channel sucessfully!")
         if bool(log) == True:
-            # with open('F:\\bot\\logs\\log.txt', 'a') as f:
-            #     f.write(f'[{current_time}]{ctx.message.author.display_name}nuked{nuke_channel}\n')
-            #     f.close()
-            print(f'[{current_time}]{ctx.message.author.display_name} nuked {nuke_channel}')
+            with open('F:\\bot\\logs\\log.txt', 'a') as f:
+                f.write(f'[{current_time}]{ctx.message.author.display_name}nuked{nuke_channel}\n')
+                f.close()
+            print(f'[{current_time}] {ctx.message.author.display_name} nuked {nuke_channel}')
         else:
             pass
     else:
-        await ctx.send(f"No channel named {channel.name} was found!")
+        await ctx.reply(f"No channel named {channel.name} was found!")
 
 @client.command()
-async def lockout(ctx):
-    if ctx.message.author.id == 738290097170153472:
-        await ctx.send('This command has been disabled')
+@commands.has_permissions(manage_channels=True)
+async def lock(ctx, channel : discord.TextChannel = None):
+    if channel == None: 
+        await ctx.reply("Please run this command again, but mention a channel next time.")
         return
-        beg = False
-        fish = False
-        work = False
-        daily = False
-        monthly = False
-        weekly = False
-        snipe = False
-        edit = False
-        shop = False
-        inventory = False
-        buy = False
-        networth = False
-        lbin = False
-        ah = False
-        susstatus = False
-        await ctx.send('Ok, I locked out the commands.')
+    lock_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+    if lock_channel is not None:
+        now = datetime.datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        perms = lock_channel.overwrites_for(ctx.guild.default_role)
+        perms.send_messages=False
+        await lock_channel.set_permissions(ctx.guild.default_role, overwrite=perms, reason="Moderator ran lock command.")
+        # await ctx.reply('**:white_check_mark: This channel has been locked.**')
+        sendEmbedLock = discord.Embed(title=f':white_check_mark: **{lock_channel}** has been locked.', color=0x6ede62)
+        await ctx.channel.send(embed = sendEmbedLock)
+        if bool(log) == True:
+                with open('F:\\bot\\logs\\log.txt', 'a') as f:
+                    f.write(f'[{current_time}] {ctx.message.author.display_name} locked {lock_channel}.\n')
+                    f.close()
+                print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} locked {colors.green}{lock_channel}{colors.end}.')
+        else:
+            pass
     else:
-        ctx.send('You can\'t use this command :eyes:')
+        await ctx.reply(f'No channel named {channel.name} was found.')
+    
+@client.command()
+@commands.has_permissions(manage_channels=True)
+async def unlock(ctx, channel : discord.TextChannel = None):
+    if channel == None: 
+        await ctx.reply("Please run this command again, but mention a channel next time.")
+        return
+    unlock_channel = discord.utils.get(ctx.guild.channels, name=channel.name)
+    if unlock_channel is not None:
+        now = datetime.datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        perms = unlock_channel.overwrites_for(ctx.guild.default_role)
+        perms.send_messages=True
+        await unlock_channel.set_permissions(ctx.guild.default_role, overwrite=perms, reason="Moderator ran unlock command.")
+        # await ctx.reply('**:white_check_mark: This channel has been unlocked.**')
+        sendEmbedUnlock = discord.Embed(title=f':white_check_mark: **{unlock_channel}** has been unlocked.', color=0x6ede62)
+        await ctx.channel.send(embed = sendEmbedUnlock)
+        if bool(log) == True:
+                with open('F:\\bot\\logs\\log.txt', 'a') as f:
+                    f.write(f'[{current_time}] {ctx.message.author.display_name} unlocked {unlock_channel}.\n')
+                    f.close()
+                print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} unlocked {colors.green}{unlock_channel}{colors.end}.')
+        else:
+            pass
+    else:
+        await ctx.reply(f'No channel named {channel.name} was found.')
+    
 
 @client.command()
 async def invites(ctx, *, user : discord.User=None):
@@ -684,16 +752,16 @@ async def invites(ctx, *, user : discord.User=None):
         for i in await ctx.guild.invites():
             if i.inviter == ctx.author:
                 totalInvites += i.uses
-        e = discord.Embed(title=f'{ctx.message.author.display_name}\'s total invites', description=f"{totalInvites} invite{'' if totalInvites == 1 else 's'}")
+        e = discord.Embed(title=f'{ctx.message.author.display_name}\'s total invites', description=f"{totalInvites} invite{'' if totalInvites == 1 else 's'}", color=theme_color)
         await ctx.reply(embed=e)
     elif user.bot:
-        await ctx.reply('This is a bot not a user')
+        await ctx.reply('This is a bot, not a user.')
         return
     else:
         for i in await ctx.guild.invites():
             if i.inviter == user:
                 totalInvites += i.uses
-        e = discord.Embed(title=f'{user.display_name}\'s total invites', description=f"{totalInvites} invite{'' if totalInvites == 1 else 's'}")
+        e = discord.Embed(title=f'{user.display_name}\'s total invites', description=f"{totalInvites} invite{'' if totalInvites == 1 else 's'}", color=theme_color)
         await ctx.reply(embed=e)
 
 @client.command()
@@ -740,7 +808,7 @@ async def highlow(ctx):
                     # with open('F:\\bot\\logs\\log.txt', 'a') as f:
                     #     f.write(f'[{current_time}]{ctx.message.author.display_name} earned {coins} coins\n')
                     #     f.close()
-                print(f'[{current_time}]{ctx.message.author.display_name} earned {coins} coins')
+                print(f'[{current_time}] {ctx.message.author.display_name} earned {coins} coins')
             else:
                 pass
         elif numb < numb2:
@@ -756,9 +824,9 @@ async def highlow(ctx):
             save_member_data(id, member_data)
             if bool(log) == True:
                     # with open('F:\\bot\\logs\\log.txt', 'a') as f:
-                    #     f.write(f'[{current_time}]{ctx.message.author.display_name} earned {coins2} coins\n')
+                    #     f.write(f'[{current_time}] {ctx.message.author.display_name} earned {coins2} coins\n')
                     #     f.close()
-                print(f'[{current_time}]{ctx.message.author.display_name} earned {coins2} coins')
+                print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} earned {colors.green}{coins2}{color.end} coins.')
             else:
                 pass
         else:
@@ -773,7 +841,7 @@ async def highlow(ctx):
                     # with open('F:\\bot\\logs\\log.txt', 'a') as f:
                     #     f.write(f'[{current_time}]{ctx.message.author.display_name} earned {coins} coins\n')
                     #     f.close()
-                print(f'[{current_time}]{ctx.message.author.display_name} earned {coins} coins')
+                print(f'[{current_time}] {ctx.message.author.display_name} earned {coins} coins')
             else:
                 pass
         else:
@@ -819,7 +887,7 @@ async def kick(ctx, *, member : discord.Member):
         # with open('F:\\bot\\logs\\log.txt', 'a') as f:
         #     f.write(f'[{current_time}]{ctx.message.author.display_name} kicked {member} from {ctx.message.guild.name}')
         #     f.close()
-        print(f'[{current_time}]{ctx.message.author.display_name} kicked {member.display_name} from {ctx.message.guild.name}')
+        print(f'[{current_time}] {ctx.message.author.display_name} kicked {member.display_name} from {ctx.message.guild.name}')
     else:
         pass
 
@@ -835,7 +903,7 @@ async def ban(ctx, *, member : discord.Member):
         await member.ban()
         await ctx.send(f'{member} has been **banned** from the server.')
         if bool(log) == True:
-            print(f'[{current_time}]{ctx.message.author.display_name} banned {member.display_name} from {ctx.message.guild.name}')
+            print(f'[{current_time}] {ctx.message.author.display_name} banned {member.display_name} from {ctx.message.guild.name}')
         else:
             pass 
 
@@ -845,7 +913,7 @@ async def linuxmeme(ctx):
     post_to_pick = random.randint(1, 100)
     for i in range(0, post_to_pick):
         submission = next(x for x in memes_submissions if not x.stickied)
-    embed = discord.Embed(title = submission.title)
+    embed = discord.Embed(title = submission.title, color=theme_color)
     embed.set_image(url=submission.url)
     embed.set_footer(text='I use Arch BTW.')
     await ctx.send(embed = embed)
@@ -856,9 +924,20 @@ async def nothecker(ctx):
     post_to_pick = random.randint(1, 10)
     for i in range(0, post_to_pick):
         submission = next(x for x in nothecker_submissions if not x.stickied)
-    embed = discord.Embed(title = submission.title)
+    embed = discord.Embed(title = submission.title, color=theme_color)
     embed.set_image(url=submission.url)
     embed.set_footer(text=':eues:')
+    await ctx.send(embed = embed)
+
+@client.command(aliases=['pet'])
+async def aww(ctx):
+    aww_submissions = reddit.subreddit('aww').hot()
+    post_to_pick = random.randint(1, 100)
+    for i in range(0, post_to_pick):
+        submission = next(x for x in aww_submissions if not x.stickied)
+    embed = discord.Embed(title = submission.title, color=theme_color)
+    embed.set_image(url=submission.url)
+    embed.set_footer(text='Meow/Woof!')
     await ctx.send(embed = embed)
 
 @client.command(aliases=['sg'])
@@ -867,7 +946,7 @@ async def softwaregore(ctx):
     post_to_pick = random.randint(1, 100)
     for i in range(0, post_to_pick):
         submission = next(x for x in sg_submissions if not x.stickied)
-    embed = discord.Embed(title = submission.title)
+    embed = discord.Embed(title = submission.title, color=theme_color)
     embed.set_image(url=submission.url)
     embed.set_footer(text='Softwaregore be like')
     await ctx.send(embed = embed)
@@ -878,7 +957,7 @@ async def meme(ctx):
     post_to_pick = random.randint(1, 100)
     for i in range(0, post_to_pick):
         submission = next(x for x in memes_submissions if not x.stickied)
-    embed = discord.Embed(title = submission.title)
+    embed = discord.Embed(title = submission.title, color=theme_color)
     embed.set_image(url=submission.url)
     embed.set_footer(text='Meems be like')
     await ctx.send(embed = embed)
@@ -889,7 +968,7 @@ async def ihadastroke(ctx):
     post_to_pick = random.randint(1, 100)
     for i in range(0, post_to_pick):
         submission = next(x for x in memes_submissions if not x.stickied)
-    embed = discord.Embed(title = submission.title, )
+    embed = discord.Embed(title = submission.title, color=theme_color)
     embed.set_image(url=submission.url)
     embed.set_footer(text='Stokr... Stork... Stroke.')
     await ctx.send(embed = embed)
@@ -897,11 +976,17 @@ async def ihadastroke(ctx):
 @client.command()
 @commands.cooldown(1, 86400, commands.BucketType.user)
 async def hecker_booster_claim(ctx):
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H:%M:%S")
     if "Hecker booster" in ctx.message.author.roles:
         member_data = load_member_data(ctx.message.author.id)
         member_data.wallet += 69420
         save_member_data(ctx.message.author.id, member_data)
         await ctx.send('Thanks for boosting Hecker\'s Hub! For this, you claimed 69420 coins :sunglasses:')
+        if bool(log) == True:
+            print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} used {colors.green}Hecker booster{colors.end}')
+        else:
+            pass
     else:
         await ctx.reply('You need to boost this server to use this command!')
 
@@ -920,7 +1005,7 @@ async def work(ctx):
     await ctx.send(f"You earned {coins} coins.")
     save_member_data(ctx.message.author.id, member_data)
     if bool(log) == True:
-        print(f'[{current_time}]{colors.cyan}{ctx.message.author.display_name}{colors.end} earned {colors.green}{coins}{colors.end} coins')
+        print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} earned {colors.green}{coins}{colors.end} coins')
     else:
         pass
 
@@ -1001,11 +1086,11 @@ async def uwu(ctx, user : discord.User):
 async def slap(ctx, user : discord.User):
     responses3 = [
         "https://cdn.weeb.sh/images/Hkw1VkYP-.gif",
-        "https://cdn.weeb.sh/images/SJlkNkFwb.gif",
-        "https://cdn.weeb.sh/images/rJ4141YDZ.gif",
+        "https://cdn.weeb.sh/images/HkA6mJFP-.gif",
+        "https://cdn.weeb.sh/images/Sk9mfCtY-.gif",
         "https://cdn.weeb.sh/images/HJKiX1tPW.gif"
     ]
-    e = discord.Embed(title=f'{ctx.message.author} slaps {user}')
+    e = discord.Embed(title=f'{ctx.message.author} slaps {user}', color=theme_color)
     e.set_image(url=f'{random.choice(responses3)}')
     await ctx.send(embed = e)
 
@@ -1018,7 +1103,7 @@ async def floppa(ctx):
         "https://pbs.twimg.com/profile_images/1417930987372257297/yk4xiTv5_400x400.jpg",
         "https://i.pinimg.com/236x/90/ff/1f/90ff1f3ec129b93c251730f838cc2d06.jpg"
     ]
-    e = discord.Embed(title='Floppa')
+    e = discord.Embed(title='Floppa', color=theme_color)
     e.set_image(url=f'{random.choice(responses_floppa)}')
     await ctx.send(embed = e)
 
@@ -1104,7 +1189,7 @@ async def postmeme(ctx):
 
 @client.command()
 async def stab(ctx, user : discord.User):
-    e = discord.Embed(title=f':knife: {ctx.message.author} fstabbed {user}. Oof! :knife:', description='That must really fstabbing hurt...')
+    e = discord.Embed(title=f':knife: {ctx.message.author} fstabbed {user}. Oof! :knife:', description='That must really fstabbing hurt...', color=theme_color)
     await ctx.send(embed = e)
 
 
@@ -1201,7 +1286,7 @@ async def work(ctx):
     await ctx.send(f"You earned {coins} coins.")
     save_member_data(ctx.message.author.id, member_data)
     if bool(log) == True:
-        print(f'[{current_time}]{colors.cyan}{ctx.message.author.display_name}{colors.end} earned {colors.green}{coins}{colors.end} coins')
+        print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} earned {colors.green}{coins}{colors.end} coins')
     else:
         pass
 
@@ -1250,11 +1335,12 @@ async def daily(ctx):
     await ctx.send('You claimed 10,000 coins')
     save_member_data(ctx.message.author.id, member_data)
     if bool(log) == True:
-        print(f'[{current_time}]{ctx.message.author.display_name} claimed 10k coins from daily command')
+        print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} claimed {colors.green}10000{colors.end} coins from daily command.')
     else:
         pass
 
 @client.command()
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def fish(message):
     if bool(currency) == False:
         await message.channel.send('Currency is disabled')
@@ -1293,6 +1379,7 @@ async def fish(message):
         save_member_data(message.author.id, member_data)
 
 @client.command()
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def dig(message):
     if bool(currency) == False:
         await message.channel.send('Currency is disabled')
@@ -1338,6 +1425,8 @@ async def dig(message):
 
 @client.command(aliases=['dep'])
 async def deposit(ctx, *, arg1):
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H:%M:%S")
     if bool(currency) == False:
         await ctx.send('Currency is disabled')
         return
@@ -1345,15 +1434,19 @@ async def deposit(ctx, *, arg1):
         member_data = load_member_data(ctx.message.author.id)
         if arg1 == 'all' or arg1 == 'max':
             if member_data.wallet == 0:
-                await ctx.send('You don\'t have any coins in your wallet')
+                await ctx.reply('You don\'t have any coins in your wallet')
                 return
             else:
                 if member_data.wallet == 1:
-                    await ctx.reply(f'You deposited {member_data.wallet} coin')
+                    await ctx.reply(f'You deposited {member_data.wallet} coin.')
                 else:
-                    await ctx.reply(f'You deposited {member_data.wallet} coins')    
+                    await ctx.reply(f'You deposited {member_data.wallet} coins.')
                 member_data.bank += int(member_data.wallet)
                 member_data.wallet -= int(member_data.wallet)
+                if bool(log) == True:
+                    print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} deposited {colors.green}{member_data.wallet}{colors.end} coin\\s to their bank account.')
+                else:
+                    pass
                 save_member_data(ctx.message.author.id, member_data)
                 return
         elif arg1.isdigit:
@@ -1367,6 +1460,10 @@ async def deposit(ctx, *, arg1):
                 await ctx.send(f'You deposited {arg1} coins')
                 member_data.wallet -= int(arg1)
                 member_data.bank += int(arg1)
+                if bool(log) == True:
+                    print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} deposited {colors.green}{arg1}{colors.end} coin\\s to their bank account.')
+                else:
+                    pass
                 save_member_data(ctx.message.author.id, member_data)
                 return
         else:
@@ -1374,6 +1471,8 @@ async def deposit(ctx, *, arg1):
 
 @client.command(aliases=['with'])
 async def withdraw(ctx, *, arg1):
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H:%M:%S")
     if bool(currency) == False:
         await ctx.send('Currency is disabled')
         return
@@ -1390,6 +1489,10 @@ async def withdraw(ctx, *, arg1):
                     await ctx.reply(f'You withdrawn {member_data.bank} coins')    
                 member_data.wallet += int(member_data.bank)
                 member_data.bank -= int(member_data.bank)
+                if bool(log) == True:
+                    print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} withdrew {colors.green}{member_data.bank}{colors.end} coin\\s from their bank account.')
+                else:
+                    pass
                 save_member_data(ctx.message.author.id, member_data)
                 return
         elif arg1.isdigit:
@@ -1400,9 +1503,13 @@ async def withdraw(ctx, *, arg1):
                 await ctx.reply('Don\'t try to break me dood')
                 return
             else:
-                await ctx.send(f'You withdrawn {arg1} coins')
+                await ctx.reply(f'You withdrawn {arg1} coins')
                 member_data.wallet += int(arg1)
                 member_data.bank -= int(arg1)
+                if bool(log) == True:
+                    print(f'[{current_time}] {colors.cyan}{ctx.message.author.display_name}{colors.end} withdrew {colors.green}{arg1}{colors.end} coin\\s from their bank account.')
+                else:
+                    pass
                 save_member_data(ctx.message.author.id, member_data)
                 return
         else:
@@ -1434,7 +1541,7 @@ async def rob(ctx, *, user : discord.User):
         elif vic_data.wallet >= 500:
             coins = randint(500, vic_data.wallet)
             if bool(log) == True:
-                print(f'[{current_time}]{ctx.message.author.display_name} stole {coins} coins from {user.display_name}')
+                print(f'[{current_time}] {ctx.message.author.display_name} stole {coins} coins from {user.display_name}')
             else:
                 pass
             vic_data.wallet -= coins
@@ -1463,7 +1570,7 @@ async def hunt(message):
         "skunk",
         "boar",
         "dragon",
-        "shovel",
+        "sniper",
         "died"
     ]
     item = random.choice(items)
@@ -1480,7 +1587,7 @@ async def hunt(message):
         member_data.wallet += 500
         save_member_data(message.author.id, member_data)
     elif item == 'shovel':
-        await message.channel.send('You went for hunting and found someone else\'s shovel. How bizzare. Anyway, you sold it and earned 1000 coins.')
+        await message.channel.send('You went for hunting and found a sniper, so you sold it and earned 1000 coins.')
         member_data = load_member_data(message.author.id)
         member_data.wallet += 1000
     elif item == 'dragon':
@@ -1509,7 +1616,10 @@ async def weekly(message):
     await message.channel.send('You claimed 50,000 coins')
     save_member_data(message.author.id, member_data)
     if bool(log) == True:
-        print(f'[{current_time}]{message.author.display_name} claimed 50k coins from weekly command')
+        with open('F:\\bot\\logs\\errors.txt', 'a') as f:
+                f.write(f'[{current_time}] {message.author.display_name} claimed 50000 coins from weekly command.\n')
+                f.close()
+        print(f'[{current_time}] {colors.cyan}{message.author.display_name}{colors.end} claimed {colors.green}50000{colors.end} coins from weekly command.')
     else:
         pass
 
@@ -1528,7 +1638,10 @@ async def monthly(message):
     await message.channel.send('You claimed 100,000 coins')
     save_member_data(message.author.id, member_data)
     if bool(log) == True:
-        print(f'[{current_time}]{message.author.display_name} claimed 100k coins from monthly command')
+        with open('F:\\bot\\logs\\errors.txt', 'a') as f:
+            f.write(f'[{current_time}] {message.author.display_name} claimed 50000 coins from weekly command.\n')
+            f.close()
+        print(f'[{current_time}] {colors.cyan}{message.author.display_name}{colors.end} claimed {colors.green}100000{colors.end} coins from monthly command.')
     else:
         pass
 
@@ -1567,11 +1680,14 @@ async def wipe_user(ctx, *, user : discord.User):
         await ctx.send(f"Wiped {user}'s account")
         save_member_data(user.id, member_data)
         if bool(log) == True:
-            print(f'[{current_time}]{ctx.message.author.display_name} wiped {user.display_name}\'s profile')
+            with open('F:\\bot\\logs\\errors.txt', 'a') as f:
+                f.write(f'[{current_time}] {ctx.message.author.display_name} wiped {user.display_name}\'s profile.\n')
+                f.close()
+            print(f'[{current_time}] {ctx.message.author.display_name} {colors.red}wiped{colors.end} {user.display_name}\'s profile.')
         else:
             pass
     else:
-        await ctx.send('I dont think you are my dev')
+        await ctx.reply('I dont think you are my dev')
 
 @client.command(aliases=['bal'])
 async def balance(ctx, user : discord.User=None):
@@ -1583,18 +1699,18 @@ async def balance(ctx, user : discord.User=None):
     if user == None:
         member_data = load_member_data(ctx.message.author.id)
 
-        embed = discord.Embed(title=f"{ctx.message.author.display_name}'s Balance", color=0x8124af)
+        embed = discord.Embed(title=f"{ctx.message.author.display_name}'s Balance", color=theme_color)
         embed.add_field(name="Wallet", value=str(member_data.wallet))
         embed.add_field(name="Bank", value=str(member_data.bank))
-        embed.set_footer(text=f'Currency api made by fstab.goldfish#5794, and deployed by {owner}')
+        embed.set_footer(text=f'Currency api made by thatOneArchUser#5794, and deployed by {owner}')
         await ctx.send(embed=embed)
     else:
         member_data = load_member_data(user.id)
 
-        embed = discord.Embed(title=f"{user.display_name}'s Balance", color=0x8124af)
+        embed = discord.Embed(title=f"{user.display_name}'s Balance", color=theme_color)
         embed.add_field(name="Wallet", value=str(member_data.wallet))
         embed.add_field(name="Bank", value=str(member_data.bank))
-        embed.set_footer(text=f'Currency api made by fstab.goldfish#5794, and deployed by {owner}')
+        embed.set_footer(text=f'Currency api made by thatOneArchUser#5794, and deployed by {owner}')
         await ctx.send(embed=embed)
 
 @client.command(aliases=['inv'])
@@ -1642,7 +1758,7 @@ async def buy(ctx, *, arg1):
             save_member_data(ctx.message.author.id, member_data)
             await ctx.send(f'You bought 1 {msg.content}')
             if bool(log) == True:
-                print(f'[{current_time}]{ctx.message.author.display_name} bought 1 {msg.content} from shop')
+                print(f'[{current_time}] {ctx.message.author.display_name} bought 1 {msg.content} from shop')
             else:
                 pass
     elif str(arg1) == 'rich_person':
@@ -1771,223 +1887,224 @@ async def tempadmin(ctx, user : discord.User, arg1):
 # user: 6
 # channel: 7
 # role: 8
-@slash.slash(name="snipe", description="Shows the most recent deleted message")
-async def snipe(ctx: SlashContext):
-    channel = ctx.channel
-    try:
-        em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
-        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
-        await ctx.send(embed = em)
-    except:
-        await ctx.send(f"There are no recently deleted messages in #{channel.name}")
 
-@slash.slash(
-    name="balance",
-    description="Shows the money amount of a user",
-    options=[
-        create_option(
-            name="user",
-            description="Select a user",
-            option_type=6,
-            required=False
-        )
-    ]
-)
-async def balance(ctx: SlashContext, user:str):
-    if user == None:
-        member_data = load_member_data(ctx.message.author.id)
+#@slash.slash(name="snipe", description="Shows the most recent deleted message")
+#async def snipe(ctx: SlashContext):
+#    channel = ctx.channel
+#    try:
+#        em = discord.Embed(name = f"Last deleted message in #{channel.name}", description = snipe_message_content[channel.id])
+#        em.set_footer(text = f"This message was sent by {snipe_message_author[channel.id]}")
+#        await ctx.send(embed = em)
+#    except:
+#        await ctx.send(f"There are no recently deleted messages in #{channel.name}")
 
-        embed = discord.Embed(title=f"{ctx.message.author.display_name}'s Balance")
-        embed.add_field(name="Wallet", value=str(member_data.wallet))
-        embed.add_field(name="Bank", value=str(member_data.bank))
-        embed.set_footer(text=f'Currency api made by {owner}')
-        await ctx.send(embed=embed)
-    else:
-        member_data = load_member_data(user.id)
+#@slash.slash(
+#    name="balance",
+#    description="Shows the money amount of a user",
+#    options=[
+#        create_option(
+#            name="user",
+#            description="Select a user",
+#            option_type=6,
+#            required=False
+#        )
+#    ]
+#)
+#async def balance(ctx: SlashContext, user:str):
+#    if user == None:
+#        member_data = load_member_data(ctx.message.author.id)
+#
+#        embed = discord.Embed(title=f"{ctx.message.author.display_name}'s Balance")
+#        embed.add_field(name="Wallet", value=str(member_data.wallet))
+#        embed.add_field(name="Bank", value=str(member_data.bank))
+#        embed.set_footer(text=f'Currency api made by {owner}')
+#        await ctx.send(embed=embed)
+#    else:
+#        member_data = load_member_data(user.id)
+#
+#        embed = discord.Embed(title=f"{user.display_name}'s Balance")
+#        embed.add_field(name="Wallet", value=str(member_data.wallet))
+#        embed.add_field(name="Bank", value=str(member_data.bank))
+#        embed.set_footer(text=f'Currency api made by {owner}')
+#        await ctx.send(embed=embed)
 
-        embed = discord.Embed(title=f"{user.display_name}'s Balance")
-        embed.add_field(name="Wallet", value=str(member_data.wallet))
-        embed.add_field(name="Bank", value=str(member_data.bank))
-        embed.set_footer(text=f'Currency api made by {owner}')
-        await ctx.send(embed=embed)
+#@slash.slash(
+#    name="edit",
+#    description="Shows the most recent edited message"
+#)
+#async def edit(ctx: SlashContext):
+#    try:
+#        em = discord.Embed(description=f'**Message before**: {before}\n**Message after**:{after}')
+#        em.set_footer(text=f'This message was edited by {author}')
+#        await ctx.send(embed = em)
+#    except:
+#        await ctx.reply('No recent edited messages here :eues:')
 
-@slash.slash(
-    name="edit",
-    description="Shows the most recent edited message"
-)
-async def edit(ctx: SlashContext):
-    try:
-        em = discord.Embed(description=f'**Message before**: {before}\n**Message after**:{after}')
-        em.set_footer(text=f'This message was edited by {author}')
-        await ctx.send(embed = em)
-    except:
-        await ctx.reply('No recent edited messages here :eues:')
+#@slash.slash(
+#    name="say",
+#    description="null",
+#    options=[
+#        create_option(
+#            name="text",
+#            description="null",
+#            option_type=3,
+#            required=True
+#        )
+#    ]
+#)
+#async def say(ctx: SlashContext, text:str):
+#    await ctx.send(text)
 
-@slash.slash(
-    name="say",
-    description="null",
-    options=[
-        create_option(
-            name="text",
-            description="null",
-            option_type=3,
-            required=True
-        )
-    ]
-)
-async def say(ctx: SlashContext, text:str):
-    await ctx.send(text)
+#@slash.slash(
+#    name="sus",
+#    description="tells if a user is sus",
+#    options=[
+#        create_option(
+#            name="user",
+#            description="is sus user",
+#            option_type=6,
+#            required=True
+#        )
+#    ]
+#)
+#async def sus(ctx: SlashContext, user:str):
+#    susbool = [
+#        True,
+#        False
+#    ]
+#    isSus = random.choice(susbool)
+#    if isSus == True:
+#        await ctx.send(f'{user.mention} is very sus')
+#    else:
+#        await ctx.send(f'{user.mention} isn\'t sus')
 
-@slash.slash(
-    name="sus",
-    description="tells if a user is sus",
-    options=[
-        create_option(
-            name="user",
-            description="is sus user",
-            option_type=6,
-            required=True
-        )
-    ]
-)
-async def sus(ctx: SlashContext, user:str):
-    susbool = [
-        True,
-        False
-    ]
-    isSus = random.choice(susbool)
-    if isSus == True:
-        await ctx.send(f'{user.mention} is very sus')
-    else:
-        await ctx.send(f'{user.mention} isn\'t sus')
+#@slash.slash(
+#    name="fstab",
+#    description="fstab.goldfish"
+#)
+#async def fstab(ctx: SlashContext):
+#    await ctx.send('https://cdn.discordapp.com/attachments/878297190576062515/879845618636423259/IMG_20210825_005111.jpg')
 
-@slash.slash(
-    name="fstab",
-    description="fstab.goldfish"
-)
-async def fstab(ctx: SlashContext):
-    await ctx.send('https://cdn.discordapp.com/attachments/878297190576062515/879845618636423259/IMG_20210825_005111.jpg')
+#@slash.slash(
+#    name="ping",
+#    description="shows bot ping",
+#)
+#async def ping(ctx: SlashContext):
+#    await ctx.send(f'Pong! My ping is {round(client.latency * 1000)}ms')
 
-@slash.slash(
-    name="ping",
-    description="shows bot ping",
-)
-async def ping(ctx: SlashContext):
-    await ctx.send(f'Pong! My ping is {round(client.latency * 1000)}ms')
+#@slash.slash(
+#    name="invite",
+#    description="sends invite of bot"
+#)
+#async def invite(ctx: SlashContext):
+#    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=859869941535997972&permissions=8&scope=bot")
 
-@slash.slash(
-    name="invite",
-    description="sends invite of bot"
-)
-async def invite(ctx: SlashContext):
-    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=859869941535997972&permissions=8&scope=bot")
+#@slash.slash(
+#    name="uptime",
+#    description="shows bot uptime"
+#)
+#async def uptime(ctx: SlashContext):
+#    uptime = str(datetime.timedelta(seconds=int(round(time.time()-startTime))))
+#    await ctx.send(uptime)
 
-@slash.slash(
-    name="uptime",
-    description="shows bot uptime"
-)
-async def uptime(ctx: SlashContext):
-    uptime = str(datetime.timedelta(seconds=int(round(time.time()-startTime))))
-    await ctx.send(uptime)
+#@slash.slash(
+#    name="null",
+#    description="null"
+#)
+#async def null(ctx: SlashContext):
+#    await ctx.send("You got __null__ coins **dood**")
 
-@slash.slash(
-    name="null",
-    description="null"
-)
-async def null(ctx: SlashContext):
-    await ctx.send("You got __null__ coins **dood**")
+#@slash.slash(
+#    name="networth",
+#    description="shows the networth of a user",
+#    options=[
+#        create_option(
+#            name="username",
+#            description="show networth of a player",
+#            option_type=3,
+#            required=True
+#        )
+#    ]
+#)
+#async def networth(ctx: SlashContext, username:str):
+#    url = f'https://nariah-dev.com/api/networth/total/{username}/?key=e7ca6250-5641-4e3e-ab5d-6e6c90502273'
+#    r = requests.get(url)
+#    if r.status_code == 200:
+#           r.raise_for_status()      
+#           jsonr = r.json()
+#           total = jsonr["total"]
+#           e = discord.Embed(title=f'{username}\'s Hypixel Skyblock networth', description=f'{total} coins')
+#           await ctx.send(embed=e)
+#    elif r.status_code == 500:
+#        await ctx.send('An internal error occured')
+#    elif r.status_code == 404:
+#         jsonr = r.json()
+#         cause = jsonr["cause"]
+#         await ctx.send(f'Error\nStatus code: {r.status_code}\nCause: {cause}')
+#    else:
+#        await ctx.send(f'Undefined status code: {r.status_code}\ndm this to notsniped#6776')
 
-@slash.slash(
-    name="networth",
-    description="shows the networth of a user",
-    options=[
-        create_option(
-            name="username",
-            description="show networth of a player",
-            option_type=3,
-            required=True
-        )
-    ]
-)
-async def networth(ctx: SlashContext, username:str):
-    url = f'https://nariah-dev.com/api/networth/total/{username}/?key=e7ca6250-5641-4e3e-ab5d-6e6c90502273'
-    r = requests.get(url)
-    if r.status_code == 200:
-           r.raise_for_status()      
-           jsonr = r.json()
-           total = jsonr["total"]
-           e = discord.Embed(title=f'{username}\'s Hypixel Skyblock networth', description=f'{total} coins')
-           await ctx.send(embed=e)
-    elif r.status_code == 500:
-        await ctx.send('An internal error occured')
-    elif r.status_code == 404:
-         jsonr = r.json()
-         cause = jsonr["cause"]
-         await ctx.send(f'Error\nStatus code: {r.status_code}\nCause: {cause}')
-    else:
-        await ctx.send(f'Undefined status code: {r.status_code}\ndm this to notsniped#6776')
+#@slash.slash(
+#    name="auction",
+#    description="shows the auction house stats for an item",
+#    options=[
+#        create_option(
+#            name="item id",
+#            description="item id",
+#            option_type=3,
+#            required=True
+#        )
+#    ]
+#)
+#async def auction(ctx: SlashContext, id:str):
+#    url = f'https://nariah-dev.com/api/auctions/statistics/{id}'
+#    r = requests.get(url)
+#    if r.status_code == 200:
+#        r.raise_for_status()
+#        jsonr = r.json()
+#        data = jsonr["data"]
+#        # data of jsonr["data"]
+#        average = data["average"]
+#        minimum = data["min"]
+#        maximum = data["max"]
+#        newstring = id.replace("_", " ")
+#        e = discord.Embed(title=f'Auction house stats for {newstring}', description=f'Average price: {average}\nLowest price: {minimum}\nHighest price: {maximum}')
+#        await ctx.send(embed=e)
+#    elif r.status_code == 404:
+#        await ctx.send(f'No such item ({id})')
+#    elif r.status_code == 500:
+#        await ctx.send('An internal error occured')
+#    else:
+#        await ctx.send(f'Undefined status code: {r.status_code}\ndm this to notsniped#6776')
 
-@slash.slash(
-    name="auction",
-    description="shows the auction house stats for an item",
-    options=[
-        create_option(
-            name="item id",
-            description="item id",
-            option_type=3,
-            required=True
-        )
-    ]
-)
-async def auction(ctx: SlashContext, id:str):
-    url = f'https://nariah-dev.com/api/auctions/statistics/{id}'
-    r = requests.get(url)
-    if r.status_code == 200:
-        r.raise_for_status()
-        jsonr = r.json()
-        data = jsonr["data"]
-        # data of jsonr["data"]
-        average = data["average"]
-        minimum = data["min"]
-        maximum = data["max"]
-        newstring = id.replace("_", " ")
-        e = discord.Embed(title=f'Auction house stats for {newstring}', description=f'Average price: {average}\nLowest price: {minimum}\nHighest price: {maximum}')
-        await ctx.send(embed=e)
-    elif r.status_code == 404:
-        await ctx.send(f'No such item ({id})')
-    elif r.status_code == 500:
-        await ctx.send('An internal error occured')
-    else:
-        await ctx.send(f'Undefined status code: {r.status_code}\ndm this to notsniped#6776')
+#@slash.slash(
+#    name="lbin",
+#    description="shows the lowest BIN price of an item",
+#    options=[
+#        create_option(
+#            name="item id",
+#            description="item id",
+#            option_type=3,
+#            required=True
+#        )
+#    ]
+#)
+#async def lbin(ctx, id:str):
+#    url = f'https://nariah-dev.com/api/auctions/statistics/{id}'
+#    r = requests.get(url)
+#    if r.status_code == 200:
+#        r.raise_for_status()
+#        jsonr = r.json()
+#        data = jsonr["data"]
+#        lbin = data["min"]
+#        item = id.replace("_", " ")
+#        e = discord.Embed(title=f'Lowest BIN for {item}', description=f'{lbin} coins')
+#        await ctx.send(embed=e)
+#    elif r.status_code == 404:
+#        await ctx.send(f'No such item ({id})')
+#    elif r.status_code == 500:
+#        await ctx.send('An internal error occured')
+#    else:
+#        await ctx.send(f'Undefined status code: {r.status_code}\nsend this to notsniped#6776')
 
-@slash.slash(
-    name="lbin",
-    description="shows the lowest BIN price of an item",
-    options=[
-        create_option(
-            name="item id",
-            description="item id",
-            option_type=3,
-            required=True
-        )
-    ]
-)
-async def lbin(ctx, id:str):
-    url = f'https://nariah-dev.com/api/auctions/statistics/{id}'
-    r = requests.get(url)
-    if r.status_code == 200:
-        r.raise_for_status()
-        jsonr = r.json()
-        data = jsonr["data"]
-        lbin = data["min"]
-        item = id.replace("_", " ")
-        e = discord.Embed(title=f'Lowest BIN for {item}', description=f'{lbin} coins')
-        await ctx.send(embed=e)
-    elif r.status_code == 404:
-        await ctx.send(f'No such item ({id})')
-    elif r.status_code == 500:
-        await ctx.send('An internal error occured')
-    else:
-        await ctx.send(f'Undefined status code: {r.status_code}\nsend this to notsniped#6776')
-
-client.run('Insert-Key-Here')
+client.run('Insert token here')
