@@ -1,4 +1,4 @@
-# isobot (Version 4.1.0)
+# isobot (Version 4.6.23)
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";".
 To run it, go into the last line and put the bot
