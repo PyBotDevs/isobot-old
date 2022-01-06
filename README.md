@@ -1,4 +1,4 @@
-# isobot (Version 4.6.23)
+# isobot (Version SR2022.01.01)
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
 To run it, go into the last line and put the bot
@@ -12,11 +12,13 @@ If you are on a machine with Linux, run linux_installer.sh.
 However, if you have a low-end machine and want a light-weight installer, use windows_installer_DEBLOATED.bat.
 
 # features
-• A working currency system using 'pickle' module.
+• A working currency system using 'pickle' module
+
+• More database storage with json
 
 • Ability to add bot admins (can use add commands)
 
-• Moderation commands (kick, ban, unban, lock, unlock, purge, setfeature, setprefix)
+• Moderation commands (kick, ban, unban, lock, mute, unmute, unlock, purge, setfeature, setprefix)
 
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
