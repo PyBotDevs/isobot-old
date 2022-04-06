@@ -18,7 +18,7 @@ The 'ids' array is in the first lines of the code.
 # How to install
 To install for windows, simply run windows_installer.bat.
 If you are on a machine with Linux, run linux_installer.sh.
-However, if you have a low-end machine and want a light-weight installer, use windows_installer_DEBLOATED.bat.
+If for some reason, the main windows_installer does not work, try running windows_installer_fallback.bat.
 
 # features
 • A working currency system using 'pickle' module
