@@ -1,4 +1,4 @@
-# isobot (Version SR2022.01.01)
+# isobot (Version 2022.406.0)
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
 To run it, go into the last line and put the bot
@@ -22,5 +22,4 @@ However, if you have a low-end machine and want a light-weight installer, use wi
 
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
-# More features coming soon. To be notified of them, please Watch this repository.
-README.md pulled from https://github.com/sniperking3335/heckerbot
+### This is currently in main release stream. Pull requests and issues are still allowed.
