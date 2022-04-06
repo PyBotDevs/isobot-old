@@ -13,7 +13,7 @@ Also put your discord id in the "ids" array. To get your user ID, simply turn on
 
 ![](https://github.com/PyBotDevs/isobot-python/blob/main/imgs/Screenshot_20220406_084517.png)
 
-Also is in the first lines of the code.
+The 'ids' array is in the first lines of the code.
 
 # How to install
 To install for windows, simply run windows_installer.bat.
