@@ -1,9 +1,18 @@
-# isobot (Version 2022.406.0)
+# isobot (Version 2022.406.1)
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
 To run it, go into the last line and put the bot
 token inside client.run('Your_token_here').
-Also put your discord id in the "ids" array. To get your id, run ?userinfo or auserinfo in another server with Dyno or Arcane and copy your ID.
+Also put your discord id in the "ids" array. To get your user ID, simply turn on Discord Developer mode, right click on your user, and click 'copy id'.
+
+![](https://github.com/PyBotDevs/isobot-python/blob/main/imgs/Screenshot_20220406_084226.png)
+
+![](https://github.com/PyBotDevs/isobot-python/blob/main/imgs/Screenshot_20220406_084421.png)
+
+![](https://github.com/PyBotDevs/isobot-python/blob/main/imgs/Screenshot_20220406_084457.png)
+
+![](https://github.com/PyBotDevs/isobot-python/blob/main/imgs/Screenshot_20220406_084517.png)
+
 Also is in the first lines of the code.
 
 # How to install
@@ -22,4 +31,4 @@ However, if you have a low-end machine and want a light-weight installer, use wi
 
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
-### This is currently in main release stream. Pull requests and issues are still allowed.
+### ✅ This is currently in main release stream. Pull requests and issues are still allowed.
