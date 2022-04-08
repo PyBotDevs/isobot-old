@@ -48,7 +48,6 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
-    'brainfuck',
     'dickson'
 ]
 links = [
@@ -57,6 +56,7 @@ links = [
     'www.',
     'ww2.'
 ]
+toLog = []
 console = False
 log = True
 if os.name == 'nt':
@@ -64,14 +64,14 @@ if os.name == 'nt':
 else:
     os.system('clear')
 intents = discord.Intents.all()
-errHandlerVer = 'v2.6A'
-botVer = 'SR2022.1.1'
-currencyVer = 'v2.7.4'
+errHandlerVer = 'v3.0.1'
+botVer = '2022.408.5'
+currencyVer = 'v2.7.8'
 if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = 'notsniped#4573'
+owner = ''
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
     with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
@@ -98,7 +98,10 @@ snipe = True
 edit = True
 shop = True
 inventory = True
-buy = True
+buy = False
+networth = True
+lbin = True
+ah = True
 count = 0
 theme_color = 0x8124af
 color_success = 0x77b255
@@ -464,8 +467,6 @@ snipe_message_content = {}
 editsnipe_message_author = {}
 editsnipe_messagebefore_content = {}
 editsnipe_messageafter_content = {}
-slashCommandsIssued = 0
-prefixCommandsIssued = 0
 
 @client.event
 async def on_message_delete(message):
@@ -1060,7 +1061,7 @@ async def help(ctx, cmdhelp=None):
       p0 = Embed(title='**MY COMMAND LIST**', description=f'My main prefix is **;**\n\n')
       p0.add_field(name='Categories', value=f'{emojis.economy} Economy:\n{emojis.music} Music\n{emojis.info} Bot Information\n{emojis.moderation} Moderation\n:sparkles: Misc\n{emojis.reddit} Reddit Commands\n{emojis.edit} Server Setup Utility')
       p0.set_footer(text='You are viewing page 1')
-      p1 = Embed(title=f'{emojis.economy} Economy Commands', description='```work, beg, balance, deposit, withdraw, shop, buy, inventory, /give, rob, bankrob, hunt, fish, daily, weekly, monthly, postmeme, scout, highlow, rockpaperscissor```')
+      p1 = Embed(title=f'{emojis.economy} Economy Commands', description='```work, beg, balance, deposit, withdraw, shop, buy, inventory, give, rob, bankrob, hunt, fish, daily, weekly, monthly, postmeme, scout, highlow, rockpaperscissor```')
       p1.set_footer(text='You are viewing page 2 | To get help on a specific command, type in `;help [command name]')
       p2 = Embed(title=f'{emojis.music} Music Commands', description='```join, play, skip, stop, volume, current, pause, queue, shuffle, remove, loop```')
       p2.set_footer(text='You are viewing page 3 | To get help on a specific command, type in `;help [command name]')
@@ -2173,6 +2174,37 @@ async def null(ctx):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
     await ctx.reply('You got **null** coins dood.')
+
+@client.command(aliases=['gift'])
+async def give(ctx, user : User, *, arg1):
+    global prefixCommandsIssued
+    prefixCommandsIssued += 1
+    gd_data = load_guild_data(ctx.guild.id)
+    if user.id == ctx.author.id:
+        await ctx.reply('You can\'t give coins to yourself')
+        return
+    elif gd_data.gift == 0:
+        await ctx.reply('This feature has been disabled in this server.')
+        return
+    else:
+        if arg1.isdigit:
+            member_data = load_member_data(ctx.author.id)
+            if member_data.wallet < int(arg1):
+                await ctx.reply('You don\'t have that many coins in your wallet')
+                return
+            elif int(arg1) < 0:
+                await ctx.reply('Don\'t try to break me **dood**')
+            elif int(arg1) == 0:
+                await ctx.reply('You can\'t gift 0 coins')
+            else:
+                member_data.wallet -= int(arg1)
+                save_member_data(ctx.author.id, member_data)
+                user_data = load_member_data(user.id)
+                user_data.wallet += int(arg1)
+                save_member_data(user.id, user_data)
+                await ctx.reply(f'You gave {arg1} coins to {user.display_name}')
+        else:
+            await ctx.reply(f'{arg1} is not a digit **dood**')
 
 @client.command()
 async def add(ctx, user:User, *, arg1=None):
@@ -3871,68 +3903,10 @@ async def unmute(ctx:SlashContext, member:discord.Member):
     embed = discord.Embed(title=f":white_check_mark: Unmuted {member.display_name}", colour=theme_color)
     await ctx.send(embed=embed)
 
-@slash.slash(
-    name='usercount', 
-    description='Shows the total number of users in the server.'
-)
+@client.command(name='usercount', description='Shows the total number of users in the server.')
 async def _membercount(ctx:SlashContext):
     e = Embed(title=f'Member count in {ctx.guild}', description=f'{ctx.guild.member_count} members', color=theme_color)
     e.set_footer(text='Bots are included')
     await ctx.reply(embed=e)
-
-@slash.slash(
-    name='give', 
-    description='Lets you give coins to someone.', 
-    options=[
-        create_option(name='user', description='Who you want to give the cash to', option_type=6, required=True),
-        create_option(name='amount', description='How many coins do you want to give?', option_type=4, required=True)
-    ]
-)
-async def give(ctx:SlashContext, user, *, amount):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    gd_data = load_guild_data(ctx.guild.id)
-    if user.id == ctx.author.id:
-        await ctx.reply('You can\'t give coins to yourself')
-        return
-    elif gd_data.gift == 0:
-        await ctx.reply('This feature has been disabled in this server.')
-        return
-    else:
-        if amount.isdigit:
-            member_data = load_member_data(ctx.author.id)
-            if member_data.wallet < int(amount):
-                await ctx.reply('You don\'t have that many coins in your wallet')
-                return
-            elif int(amount) < 0:
-                await ctx.reply('Don\'t try to break me **dood**')
-            elif int(amount) == 0:
-                await ctx.reply('You can\'t gift 0 coins')
-            else:
-                member_data.wallet -= int(amount)
-                save_member_data(ctx.author.id, member_data)
-                user_data = load_member_data(user.id)
-                user_data.wallet += int(amount)
-                save_member_data(user.id, user_data)
-                await ctx.reply(f'You gave {amount} coins to {user.display_name}')
-        else:
-            await ctx.reply(f'{amount} is not a digit **dood**')
-
-@slash.slash(name='passive', description='Turns passive mode on or off', options=[create_option(name='value', description='Turn it on or off', option_type=3, required=True)])
-async def passive(ctx:SlashContext, value):
-    if value == 'true':
-        if passivemode[str(ctx.author.id)] == 1:
-            await ctx.reply('You do you think you can enable something that\'s already enabled?')
-            return
-        else:
-            passivemode[str(ctx.author.id)] = 1
-            await ctx.reply('You\'re now in passive mode.')
-    elif value == 'false':
-        if passivemode[str(ctx.author.id)] == 0:
-            await ctx.reply('You do you think you can disable something that\'s already disabled?')
-            return
-        else:
-            passivemode[str(ctx.author.id)] = 0
-            await ctx.reply('You\'re now out of passive mode. Be careful!')
 
 client.run('YOUR TOKEN HERE')
