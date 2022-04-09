@@ -65,7 +65,7 @@ else:
     os.system('clear')
 intents = discord.Intents.all()
 errHandlerVer = 'v3.0.1'
-botVer = '2022.408.5'
+botVer = '2022.409.0'
 currencyVer = 'v2.7.8'
 if os.name == 'nt':
     os.system('cls')
