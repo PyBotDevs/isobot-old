@@ -65,8 +65,8 @@ else:
     os.system('clear')
 intents = discord.Intents.all()
 errHandlerVer = 'v3.0.1'
-botVer = '2022.408.4'
-currencyVer = 'v2.7.7'
+botVer = '2022.409.0'
+currencyVer = 'v2.7.8'
 if os.name == 'nt':
     os.system('cls')
 else:
@@ -467,6 +467,8 @@ snipe_message_content = {}
 editsnipe_message_author = {}
 editsnipe_messagebefore_content = {}
 editsnipe_messageafter_content = {}
+prefixCommandsIssued = 0
+slashCommandsIssued = 0
 
 @client.event
 async def on_message_delete(message):
