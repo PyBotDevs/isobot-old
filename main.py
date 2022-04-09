@@ -467,6 +467,8 @@ snipe_message_content = {}
 editsnipe_message_author = {}
 editsnipe_messagebefore_content = {}
 editsnipe_messageafter_content = {}
+prefixCommandsIssued = 0
+slashCommandsIssued = 0
 
 @client.event
 async def on_message_delete(message):
