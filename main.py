@@ -3906,4 +3906,4 @@ async def _membercount(ctx:SlashContext):
     e.set_footer(text='Bots are included')
     await ctx.reply(embed=e)
 
-client.run('YOUR TOKEN HERE')
+client.run(libs.api.auth.token)
