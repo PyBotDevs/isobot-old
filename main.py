@@ -1,16 +1,14 @@
 ### Modules ###
 import os
-import time
-import pickle
+import time, datetime
+import pickle, json
 import os.path
 import discord
-import datetime
 import praw
 from ossapi import *
 import nekos
 import nacl
 import ffmpeg
-import json
 import asyncio
 import aiohttp
 import timefetch
@@ -20,12 +18,9 @@ import clientmaster as cm
 import helpdb.helpdb as helpdb
 from translate import Translator
 from random import randint, choice
-from discord import Embed
-from discord import User
-from discord.ext import commands
+from discord import Embed, User
+from discord.ext import commands, tasks
 from discord.ext.commands import *
-from discord.ext import tasks
-from requests.auth import HTTPBasicAuth
 from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import create_choice, create_option
 ### Modules end ###
