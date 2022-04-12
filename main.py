@@ -49,7 +49,6 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
-    'brainfuck',
     'dickson'
 ]
 links = [
@@ -64,14 +63,14 @@ if os.name == 'nt':
 else:
     os.system('clear')
 intents = discord.Intents.all()
-errHandlerVer = 'v2.6A'
-botVer = 'SR2022.1.1'
+errHandlerVer = 'v3.0.1'
+botVer = '2022.412.0'
 currencyVer = 'v2.7.4'
 if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = 'notsniped#4573'
+owner = ''
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
     with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
@@ -1002,7 +1001,7 @@ async def help(ctx, cmdhelp=None):
       p1.set_footer(text='You are viewing page 2 | To get help on a specific command, type in `;help [command name]')
       p2 = Embed(title=f'{emojis.music} Music Commands', description='```join, play, skip, stop, volume, current, pause, queue, shuffle, remove, loop```')
       p2.set_footer(text='You are viewing page 3 | To get help on a specific command, type in `;help [command name]')
-      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, invite, uptime```')
+      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, /usercount, invite, uptime```')
       p3.set_footer(text='You are viewing page 4 | To get help on a specific command, type in `;help [command name]')
       p4 = Embed(title=f'{emojis.moderation} Moderation Commands', description='```ban, kick, mute, unmute, warn, warnings, clearwarns, set_level, purge, lock, unlock, nuke```')
       p4.set_footer(text='You are viewing page 5 | To get help on a specific command, type in `;help [command name]')
