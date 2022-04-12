@@ -1,20 +1,23 @@
 ### Modules ###
 import os
-import time, datetime
-import pickle, json
+import time
+import pickle
 import os.path
 import discord
+import datetime
 import praw
 from ossapi import *
 import nekos
+import host
+from host import keep_alive
 import nacl
 import ffmpeg
+import json
 import asyncio
 import aiohttp
 import timefetch
 import requests
 import psutil
-import clientmaster as cm
 import libs.api.auth
 import libs.api.admins
 import helpdb.helpdb as helpdb
@@ -25,10 +28,11 @@ from discord.ext import commands, tasks
 from discord.ext.commands import *
 from discord_slash import SlashCommand, SlashContext
 from discord_slash.utils.manage_commands import create_choice, create_option
+from discord_slash.utils.manage_components import create_select, create_select_option, create_actionrow
 ### Modules end ###
 
 ### Startup/variables ###
-ids = libs.api.admins.ids
+ids = list(libs.api.admins.ids)
 class emojis:
     economy = '<:isoecon:956175023977168926>'
     edit = '<:isoedit:956175024035885116>'
@@ -45,6 +49,7 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
+    'brainfuck',
     'dickson'
 ]
 links = [
@@ -53,22 +58,20 @@ links = [
     'www.',
     'ww2.'
 ]
-toLog = []
-console = False
 log = True
 if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
 intents = discord.Intents.all()
-errHandlerVer = 'v3.0.1'
-botVer = '2022.409.0'
-currencyVer = 'v2.7.8'
+errHandlerVer = 'v2.6A'
+botVer = 'SR2022.1.1'
+currencyVer = 'v2.7.4'
 if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = ''
+owner = 'notsniped#4573'
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
     with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
@@ -95,10 +98,7 @@ snipe = True
 edit = True
 shop = True
 inventory = True
-buy = False
-networth = True
-lbin = True
-ah = True
+buy = True
 count = 0
 theme_color = 0x8124af
 color_success = 0x77b255
@@ -303,9 +303,6 @@ def save_config_data(guild_ID, guild_data):
 def get_time():
     return timefetch.timenow
 
-def consoleFunc():
-    input('Bot> ')
-
 def returnhelp(cmdhelp:str, cmdDisplay, cooldownTime, availability:str):
     helpSubCmdEmbed = Embed(title=f'Help for **{cmdhelp} command**', description=f'Command name: {cmdhelp}\nUsage: `{cmdDisplay}`\nCooldown: {cooldownTime} seconds\nAvailability: {availability}\n\n*Anything in `[]` is compulsary and anything in `<>` is optional.*', color=theme_color)
     return helpSubCmdEmbed
@@ -357,15 +354,7 @@ async def on_ready():
         print('------------------')
     else:
         print(f'Logging: {colors.red}{log}{colors.end}')
-        print('------------------')
-    if bool(console) == True:
-        print(f'Console: {colors.green}{console}{colors.end}')
         print('==================')
-        threading.Thread(target=consoleFunc).start()
-    else:
-        print(f'Console: {colors.red}{console}{colors.end}')
-        print('==================')
-        pass
     print('Bot admins')
     print('------------------')
     print(colors.cyan)
@@ -464,13 +453,12 @@ snipe_message_content = {}
 editsnipe_message_author = {}
 editsnipe_messagebefore_content = {}
 editsnipe_messageafter_content = {}
-prefixCommandsIssued = 0
 slashCommandsIssued = 0
+prefixCommandsIssued = 0
 
 @client.event
 async def on_message_delete(message):
     if not message.author.bot:
-        guild = client.guilds[0]
         channel = message.channel
         snipe_message_author[message.channel.id] = message.author
         snipe_message_content[message.channel.id] = message.content
@@ -795,39 +783,6 @@ async def on_message(message):
 
 ### Commands ###
 
-@client.command(aliases=['xp', 'level', 'lvl'])
-async def rank(ctx, user:User=None):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    gd_data = load_guild_data(ctx.guild.id)
-    if gd_data.levelingsystem == 0:
-        await ctx.reply(':warning: Leveling is disabled in this server')
-        return
-    else:
-        pass
-    if user == None:
-        xpreq = 0
-        for level in range(levels[str(ctx.guild.id)][str(ctx.author.id)]):
-            xpreq += 50
-            if xpreq >= 5000:
-                break
-        e = Embed(title=f"{ctx.author.display_name}'s XP")
-        e.add_field(name='Level', value=str(levels[str(ctx.guild.id)][str(ctx.author.id)]))
-        e.add_field(name='XP', value=str(f'{exp[str(ctx.guild.id)][str(ctx.author.id)]}/{xpreq}'))
-        e.set_footer(text='To level up, keep on chatting!')
-        await ctx.send(embed=e)
-    else:
-        xpreq = 0
-        for level in range(levels[str(ctx.guild.id)][str(user.id)]):
-            xpreq += 50
-            if xpreq >= 5000:
-                break
-        e = Embed(title=f"{user.display_name}'s XP")
-        e.add_field(name='Level', value=str(levels[str(ctx.guild.id)][str(user.id)]))
-        e.add_field(name='XP', value=str(f'{exp[str(ctx.guild.id)][str(user.id)]}/{xpreq}'))
-        e.set_footer(text='To level up, keep on chatting!')
-        await ctx.send(embed=e)
-
 @client.command()
 async def add_xp(ctx, user:User, *, arg1):
     global prefixCommandsIssued
@@ -945,23 +900,6 @@ async def uptime(ctx):
     await ctx.send(f'I have been running for {uptime}.')
 
 @client.command()
-async def setmaintainance(ctx, status):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    if ctx.author.id not in ids:
-        return
-    else:
-        pass
-    if status == 'true':
-        await ctx.reply(':white_check_mark: Maintainance mode set.')
-        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"maintenance"), status=discord.Status.dnd)
-    elif status == 'false':
-        await ctx.reply(':white_check_mark: Maintainance mode removed.')
-        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"chats (;help) | Servicing {str(len(client.guilds))} guilds"), status=discord.Status.online)
-    else:
-        raise(BadBoolArgument)
-
-@client.command()
 async def snipe(ctx):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
@@ -1060,7 +998,7 @@ async def help(ctx, cmdhelp=None):
       p0 = Embed(title='**MY COMMAND LIST**', description=f'My main prefix is **;**\n\n')
       p0.add_field(name='Categories', value=f'{emojis.economy} Economy:\n{emojis.music} Music\n{emojis.info} Bot Information\n{emojis.moderation} Moderation\n:sparkles: Misc\n{emojis.reddit} Reddit Commands\n{emojis.edit} Server Setup Utility')
       p0.set_footer(text='You are viewing page 1')
-      p1 = Embed(title=f'{emojis.economy} Economy Commands', description='```work, beg, balance, deposit, withdraw, shop, buy, inventory, give, rob, bankrob, hunt, fish, daily, weekly, monthly, postmeme, scout, highlow, rockpaperscissor```')
+      p1 = Embed(title=f'{emojis.economy} Economy Commands', description='```work, beg, balance, deposit, withdraw, shop, buy, inventory, /give, rob, bankrob, hunt, fish, daily, weekly, monthly, postmeme, scout, highlow, rockpaperscissor```')
       p1.set_footer(text='You are viewing page 2 | To get help on a specific command, type in `;help [command name]')
       p2 = Embed(title=f'{emojis.music} Music Commands', description='```join, play, skip, stop, volume, current, pause, queue, shuffle, remove, loop```')
       p2.set_footer(text='You are viewing page 3 | To get help on a specific command, type in `;help [command name]')
@@ -1068,7 +1006,7 @@ async def help(ctx, cmdhelp=None):
       p3.set_footer(text='You are viewing page 4 | To get help on a specific command, type in `;help [command name]')
       p4 = Embed(title=f'{emojis.moderation} Moderation Commands', description='```ban, kick, mute, unmute, warn, warnings, clearwarns, set_level, purge, lock, unlock, nuke```')
       p4.set_footer(text='You are viewing page 5 | To get help on a specific command, type in `;help [command name]')
-      p5 = Embed(title=f':sparkles: Misc', description='```poll, pollresults, giveaway, reroll, 8ball, slap, kill, hug, stare, uwu, snipe, edit_snipe, osu, amogus, fstab, say, cat```')
+      p5 = Embed(title=f':sparkles: Misc', description='```poll, pollresults, giveaway, reroll, /8ball, /vote, slap, kill, hug, stare, uwu, snipe, edit_snipe, osu, amogus, fstab, say, cat```')
       p5.set_footer(text='You are viewing page 6 | To get help on a specific command, type in `;help [command name]')
       p6 = Embed(title=f'{emojis.reddit} Reddit Commands', description='```meme, linuxmeme, nothecker, aww, softwaregore, ihadastroke```')
       p6.set_footer(text='You are viewing page 7 | To get help on a specific command, type in `;help [command name]')
@@ -1196,45 +1134,6 @@ async def help(ctx, cmdhelp=None):
     elif cmdhelp == 'help': await ctx.reply('You want help for help? *I wonder how you got this far then*')
     else: await ctx.reply(f'I can\'t find a command called {cmdhelp}.')
 
-@client.command(aliases=['8ball'])
-async def _8ball(ctx, *, question):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    responses = [
-        "no?????",
-        "When you grow a braincell, yes",
-        "You stupid, of course not",
-        "lol no",
-        "Absolutely!",
-        "Bet on it",
-        "As I see it, yes.",
-        "Most likely.",
-        "Yes.",
-        "Idfk",
-        "Try again",
-        "Not today.",
-        "I\'m not very sure, but I think the answer is no.",
-        "I\'m not very sure, but I think the answer is yes!",
-        "brain.exe stopped responding.",
-        "Ask again later.",
-        "You must be stupid or something, the answer is obviously no",
-        "Hell to the yes!",
-        "Frick yeah!",
-        "Im an 8ball, not a 'dealwithurcrap' ball.",
-        "What do you think? The answer is obviously yes",
-        "What do you think? The answer is obviously no",
-        "Better not tell you now.",
-        "Cannot predict now.",
-        "Concentrate and ask again.",
-        "Don't count on it.",
-        "My reply is no.",
-        "My sources say no.",
-        "Outlook not so good.",
-        "Its a secret :>"
-    ]
-    ballEmbed= Embed(title=f':8ball: {question}', description=f'{choice(responses)}')
-    await ctx.send(embed=ballEmbed)
-
 @client.command(aliases=['av'])
 async def avatar(ctx, username:User=None):
     global prefixCommandsIssued
@@ -1251,13 +1150,6 @@ async def avatar(ctx, username:User=None):
         await ctx.send(embed = embed182)
 
 @client.command()
-async def eues(ctx):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    await ctx.message.delete()
-    await ctx.send(':eyes:')
-
-@client.command()
 async def cat(ctx):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
@@ -1266,13 +1158,6 @@ async def cat(ctx):
             if r.status == 200:
                 js = await r.json()
                 await ctx.send(js['file'])
-
-@client.command()
-async def fact(ctx):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    rand_fact = nekos.fact()
-    await ctx.send(f'**A random fact**\n> {rand_fact}')
 
 @client.command()
 @commands.has_permissions(manage_channels=True)
@@ -1731,13 +1616,6 @@ async def ihadastroke(ctx):
     embed.set_footer(text='Stokr... Stork... Stroke.')
     await ctx.send(embed = embed)
 
-@client.command(aliases=['upvote'])
-async def vote(ctx):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    e = Embed(title='Vote for isobot on DBL and top.gg', description=f'Discord Bot List: https://discordbotlist.com/bots/halloween-isobot \ntop.gg: https://top.gg/bot/896437848176230411/vote', color=theme_color)
-    await ctx.send(embed=e)
-
 @client.command()
 @commands.cooldown(1, 1800, commands.BucketType.user)
 async def work(ctx):
@@ -2173,37 +2051,6 @@ async def null(ctx):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
     await ctx.reply('You got **null** coins dood.')
-
-@client.command(aliases=['gift'])
-async def give(ctx, user : User, *, arg1):
-    global prefixCommandsIssued
-    prefixCommandsIssued += 1
-    gd_data = load_guild_data(ctx.guild.id)
-    if user.id == ctx.author.id:
-        await ctx.reply('You can\'t give coins to yourself')
-        return
-    elif gd_data.gift == 0:
-        await ctx.reply('This feature has been disabled in this server.')
-        return
-    else:
-        if arg1.isdigit:
-            member_data = load_member_data(ctx.author.id)
-            if member_data.wallet < int(arg1):
-                await ctx.reply('You don\'t have that many coins in your wallet')
-                return
-            elif int(arg1) < 0:
-                await ctx.reply('Don\'t try to break me **dood**')
-            elif int(arg1) == 0:
-                await ctx.reply('You can\'t gift 0 coins')
-            else:
-                member_data.wallet -= int(arg1)
-                save_member_data(ctx.author.id, member_data)
-                user_data = load_member_data(user.id)
-                user_data.wallet += int(arg1)
-                save_member_data(user.id, user_data)
-                await ctx.reply(f'You gave {arg1} coins to {user.display_name}')
-        else:
-            await ctx.reply(f'{arg1} is not a digit **dood**')
 
 @client.command()
 async def add(ctx, user:User, *, arg1=None):
@@ -3406,10 +3253,6 @@ async def reddit(ctx, subreddit):
 # channel: 7
 # role: 8
 
-@slash.slash(name="fstab", description="fstab.goldfish")
-async def fstab(ctx:SlashContext):
-    await ctx.send('https://cdn.discordapp.com/attachments/878297190576062515/879845618636423259/IMG_20210825_005111.jpg')
-
 @slash.slash(name='userinvites', description='Shows how many people a user has invited to the server', options=[create_option(name='user', description='The user who you want to see total invites from', option_type=6, required=False)])
 async def invites(ctx:SlashContext, user:str = None):
     global slashCommandsIssued
@@ -3661,30 +3504,36 @@ async def eightball(ctx:SlashContext, question):
     global slashCommandsIssued
     slashCommandsIssued += 1
     responses = [
-            "no?????",
-            "When you grow a braincell, yes",
-            "You stupid, of course not",
-            "lol no",
-            "Absolutely!",
-            "Bet on it",
-            "As I see it, yes.",
-            "Most likely.",
-            "Yes.",
-            "Idfk",
-            "Try again",
-            "Not today.",
-            "I\'m not very sure, but I think the answer is no.",
-            "I\'m not very sure, but I think the answer is yes!",
-            "brain.exe stopped responding.",
-            "Ask again later.",
-            "Better not tell you now.",
-            "Cannot predict now.",
-            "Concentrate and ask again.",
-            "Don't count on it.",
-            "My reply is no.",
-            "My sources say no.",
-            "Outlook not so good.",
-            "Its a secret :>"
+        "no?????",
+        "When you grow a braincell, yes",
+        "You stupid, of course not",
+        "lol no",
+        "Absolutely!",
+        "Bet on it",
+        "As I see it, yes.",
+        "Most likely.",
+        "Yes.",
+        "Idfk",
+        "Try again",
+        "Not today.",
+        "I\'m not very sure, but I think the answer is no.",
+        "I\'m not very sure, but I think the answer is yes!",
+        "brain.exe stopped responding.",
+        "Ask again later.",
+        "You must be stupid or something, the answer is obviously no",
+        "Hell to the yes!",
+        "Frick yeah!",
+        "Im an 8ball, not a 'dealwithurcrap' ball.",
+        "What do you think? The answer is obviously yes",
+        "What do you think? The answer is obviously no",
+        "Better not tell you now.",
+        "Cannot predict now.",
+        "Concentrate and ask again.",
+        "Don't count on it.",
+        "My reply is no.",
+        "My sources say no.",
+        "Outlook not so good.",
+        "Its a secret :>"
     ]
     ballEmbed= Embed(title=f':8ball: {question}', description=f'{choice(responses)}')
     await ctx.send(embed=ballEmbed)
@@ -3902,10 +3751,77 @@ async def unmute(ctx:SlashContext, member:discord.Member):
     embed = discord.Embed(title=f":white_check_mark: Unmuted {member.display_name}", colour=theme_color)
     await ctx.send(embed=embed)
 
-@client.command(name='usercount', description='Shows the total number of users in the server.')
+@slash.slash(
+    name='usercount', 
+    description='Shows the total number of users in the server.'
+)
 async def _membercount(ctx:SlashContext):
     e = Embed(title=f'Member count in {ctx.guild}', description=f'{ctx.guild.member_count} members', color=theme_color)
     e.set_footer(text='Bots are included')
     await ctx.reply(embed=e)
 
+@slash.slash(
+    name='give', 
+    description='Lets you give coins to someone.', 
+    options=[
+        create_option(name='user', description='Who you want to give the cash to', option_type=6, required=True),
+        create_option(name='amount', description='How many coins do you want to give?', option_type=4, required=True)
+    ]
+)
+async def give(ctx:SlashContext, user, *, amount):
+    global prefixCommandsIssued
+    prefixCommandsIssued += 1
+    gd_data = load_guild_data(ctx.guild.id)
+    if user.id == ctx.author.id:
+        await ctx.reply('You can\'t give coins to yourself')
+        return
+    elif gd_data.gift == 0:
+        await ctx.reply('This feature has been disabled in this server.')
+        return
+    else:
+        if amount.isdigit:
+            member_data = load_member_data(ctx.author.id)
+            if member_data.wallet < int(amount):
+                await ctx.reply('You don\'t have that many coins in your wallet')
+                return
+            elif int(amount) < 0:
+                await ctx.reply('Don\'t try to break me **dood**')
+            elif int(amount) == 0:
+                await ctx.reply('You can\'t gift 0 coins')
+            else:
+                member_data.wallet -= int(amount)
+                save_member_data(ctx.author.id, member_data)
+                user_data = load_member_data(user.id)
+                user_data.wallet += int(amount)
+                save_member_data(user.id, user_data)
+                await ctx.reply(f'You gave {amount} coins to {user.display_name}')
+        else:
+            await ctx.reply(f'{amount} is not a digit **dood**')
+
+@slash.slash(name='passive', description='Turns passive mode on or off', options=[create_option(name='value', description='Turn it on or off', option_type=3, required=True)])
+async def passive(ctx:SlashContext, value):
+    if value == 'true':
+        if passivemode[str(ctx.author.id)] == 1:
+            await ctx.reply('You do you think you can enable something that\'s already enabled?')
+            return
+        else:
+            passivemode[str(ctx.author.id)] = 1
+            await ctx.reply('You\'re now in passive mode.')
+    elif value == 'false':
+        if passivemode[str(ctx.author.id)] == 0:
+            await ctx.reply('You do you think you can disable something that\'s already disabled?')
+            return
+        else:
+            passivemode[str(ctx.author.id)] = 0
+            await ctx.reply('You\'re now out of passive mode. Be careful!')
+
+@slash.slash(name='vote', description='Vote for the bot on multiple sites!')
+async def vote(ctx:SlashContext):
+    global slashCommandsIssued
+    slashCommandsIssued += 1
+    e = Embed(title='Vote for isobot on DBL and top.gg', description=f'Discord Bot List: https://discordbotlist.com/bots/halloween-isobot \ntop.gg: https://top.gg/bot/896437848176230411/vote', color=theme_color)
+    await ctx.send(embed=e)
+
+#Execution
+keep_alive()
 client.run(libs.api.auth.token)
