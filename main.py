@@ -15,6 +15,8 @@ import timefetch
 import requests
 import psutil
 import clientmaster as cm
+import libs.api.auth
+import libs.api.admins
 import helpdb.helpdb as helpdb
 from translate import Translator
 from random import randint, choice
@@ -26,7 +28,7 @@ from discord_slash.utils.manage_commands import create_choice, create_option
 ### Modules end ###
 
 ### Startup/variables ###
-ids = []
+ids = libs.api.admins.ids
 class emojis:
     economy = '<:isoecon:956175023977168926>'
     edit = '<:isoedit:956175024035885116>'
