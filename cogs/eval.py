@@ -24,8 +24,7 @@ class EvalCommand(commands.Cog):
     async def _eval(self, ctx, *, body):
         ids = []
         if ctx.message.author.id not in ids: return
-        blocked_words = ['while', 'quit', 'exit', 'SystemExit', 'open', '.delete()', 'os', 'subprocess', 'base64', 'history()', '("token")', "('token')",
-                        'aW1wb3J0IG9zCnJldHVybiBvcy5lbnZpcm9uLmdldCgndG9rZW4nKQ==', 'aW1wb3J0IG9zCnByaW50KG9zLmVudmlyb24uZ2V0KCd0b2tlbicpKQ==']
+        blocked_words = ['while', 'quit', 'exit', 'SystemExit', 'open', '.delete()', 'os', 'subprocess', 'base64', 'history()', '("token")', "('token')"]
         if ctx.message.author.id != 738290097170153472:
             for x in blocked_words:
                 if x in body:
