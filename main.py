@@ -71,7 +71,7 @@ if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = 'notsniped#4573'
+owner = ''
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
     with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
