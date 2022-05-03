@@ -1002,7 +1002,7 @@ async def help(ctx, cmdhelp=None):
       p1.set_footer(text='You are viewing page 2 | To get help on a specific command, type in `;help [command name]')
       p2 = Embed(title=f'{emojis.music} Music Commands', description='```join, play, skip, stop, volume, current, pause, queue, shuffle, remove, loop```')
       p2.set_footer(text='You are viewing page 3 | To get help on a specific command, type in `;help [command name]')
-      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, /usercount invite, uptime```')
+      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, /usercount, invite, uptime```')
       p3.set_footer(text='You are viewing page 4 | To get help on a specific command, type in `;help [command name]')
       p4 = Embed(title=f'{emojis.moderation} Moderation Commands', description='```ban, kick, mute, unmute, warn, warnings, clearwarns, set_level, purge, lock, unlock, nuke```')
       p4.set_footer(text='You are viewing page 5 | To get help on a specific command, type in `;help [command name]')
