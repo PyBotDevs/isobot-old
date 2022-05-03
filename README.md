@@ -1,4 +1,4 @@
-# isobot (Version 2022.409.0)
+# isobot (Version 2022.501.0)
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
 To run it, go into the last line and put the bot
@@ -31,4 +31,4 @@ If for some reason, the main windows_installer does not work, try running window
 
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
-### ✅ This is currently in main release stream. Pull requests and issues are still allowed.
+### ✅ This is currently in main release stream. Pull requests and issues are welcome!
