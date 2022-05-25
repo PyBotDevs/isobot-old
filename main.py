@@ -700,6 +700,10 @@ async def on_message(message):
         pass
     else:
         welcomer[str(message.guild.id)] = 0
+    if str(message.guild.id) in autoroles:
+        pass
+    else:
+        autoroles[str(message.guild.id)] = 0
     ## LEVELING SYSTEM ##
     if str(message.guild.id) in levels:
         pass
@@ -3839,7 +3843,7 @@ async def autorole(ctx:SlashContext, role:discord.Role):
   if not ctx.author.guild_permissions.administrator:
     await ctx.send(':x: You need administrator permissions to do this.', hidden=True)
   if role == None:
-    autoroles[str(ctx.guild.id)] = '0'
+    autoroles[str(ctx.guild.id)] = 0
     savejson()
     await ctx.send(":white_check_mark: Autoroles successfully disabled.")
   else:
