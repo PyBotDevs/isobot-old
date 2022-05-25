@@ -41,7 +41,7 @@ class emojis:
     music = '<:isomusic:956175023968751696>'
     reddit = '<:isoreddit:956176599693262888>'
     stream = '<:isostream:956175023817768963>'
-with open('/home/notsniped/Downloads/isobot/defaultswear.json', 'r') as f:
+with open('isobot/defaultswear.json', 'r') as f:
   imp = json.load(f)
   global bad
   bad = list(imp.keys())
@@ -49,7 +49,9 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
-    'dickson'
+    'brainfuck',
+    'dickson',
+    'class'
 ]
 links = [
     'http://',
@@ -64,16 +66,16 @@ else:
     os.system('clear')
 intents = discord.Intents.all()
 errHandlerVer = 'v3.0.1'
-botVer = '2022.501.0'
+botVer = '2022.412.0'
 currencyVer = 'v2.7.4'
 if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = ''
+owner = 'notsniped#4573'
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     return prefixes[str(message.guild.id)]
 client = commands.Bot(command_prefix=(get_prefix), intents=intents)
@@ -102,10 +104,10 @@ count = 0
 theme_color = 0x8124af
 color_success = 0x77b255
 color_fail = 0xc92424
-loggerHandler_path = '/home/notsniped/Downloads/isobot/botLog/log.txt'
-errorHandler_path = "/home/notsniped/Downloads/isobot/botLog/errors.txt"
-mainDB_path = '/home/notsniped/Downloads/isobot/database.pickle'
-configDB_path = '/home/notsniped/Downloads/isobot/config.pickle'
+loggerHandler_path = 'isobot/botLog/log.txt'
+errorHandler_path = "isobot/botLog/errors.txt"
+mainDB_path = 'isobot/database.pickle'
+configDB_path = 'isobot/config.pickle'
 error_display = '<:Isobot_Error:914807604511924224>'
 warning_display = '<:Isobot_Warning:914807514837708852>'
 ### Functions and classes ###
@@ -173,85 +175,90 @@ class colors:
     end = '\033[0m'
   
 ## BADGES ##
-with open('/home/notsniped/Downloads/isobot/db/badges/prestige.json', 'r') as f:
+with open('isobot/db/badges/prestige.json', 'r') as f:
     global prestige_conf
     prestige_conf = json.load(f)
 ## BOXES ##
-with open('/home/notsniped/Downloads/isobot/db/boxes/normalbox.json', 'r') as f:
+with open('isobot/db/boxes/normalbox.json', 'r') as f:
     global normalbox
     normalbox = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/boxes/probox.json', 'r') as f:
+with open('isobot/db/boxes/probox.json', 'r') as f:
     global probox
     probox = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/boxes/devbox.json', 'r') as f:
+with open('isobot/db/boxes/devbox.json', 'r') as f:
     global devbox
     devbox = json.load(f)
 ## CONFIGURATION ##
-with open('/home/notsniped/Downloads/isobot/db/config/levelup.json', 'r') as f:
+with open('isobot/db/config/levelup.json', 'r') as f:
     global levelupchannel
     levelupchannel = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/welcomer.json', 'r') as f:
+with open('isobot/db/config/welcomer.json', 'r') as f:
     global welcomemsg
     welcomemsg = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/goodbye.json', 'r') as f:
+with open('isobot/db/config/goodbye.json', 'r') as f:
     global goodbyemsg
     goodbyemsg = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/linkblocker.json', 'r') as f:
+with open('isobot/db/config/linkblocker.json', 'r') as f:
     global linkblocker
     linkblocker = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/passive.json', 'r') as f:
+with open('isobot/db/config/passive.json', 'r') as f:
     global passivemode
     passivemode = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/globalwelcomer.json', 'r') as f:
+with open('isobot/db/globalwelcomer.json', 'r') as f:
     global welcomer
     welcomer = json.load(f)
 
-with open(f'/home/notsniped/Downloads/isobot/db/levels.json', 'r') as f:
+with open(f'isobot/db/levels.json', 'r') as f:
     global levels
     levels = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/xp.json', 'r') as f:
+with open(f'isobot/db/xp.json', 'r') as f:
     global exp
     exp = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/warnings.json', 'r') as f:
+with open(f'isobot/db/warnings.json', 'r') as f:
     global warnings
     warnings = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/serverbackups.json', 'r') as f:
+with open(f'isobot/db/serverbackups.json', 'r') as f:
     global serverbackups
     serverbackups = json.load(f)
+with open(f'isobot/db/autoroles.json', 'r') as f:
+    global autoroles
+    autoroles = json.load(f)
 
 def savejson():
     ## BADGES ##
-    with open(f'/home/notsniped/Downloads/isobot/db/badges/prestige.json', 'w+') as f:
+    with open(f'isobot/db/badges/prestige.json', 'w+') as f:
         json.dump(prestige_conf, f, indent=4)
     ## BOXES ##
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/normalbox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/normalbox.json', 'w+') as f:
         json.dump(normalbox, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/probox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/probox.json', 'w+') as f:
         json.dump(probox, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/devbox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/devbox.json', 'w+') as f:
         json.dump(devbox, f, indent=4)
     ## CONFIGURATION ##
-    with open(f'/home/notsniped/Downloads/isobot/db/config/levelup.json', 'w+') as f:
+    with open(f'isobot/db/config/levelup.json', 'w+') as f:
         json.dump(levelupchannel, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/welcomer.json', 'w+') as f:
+    with open(f'isobot/db/config/welcomer.json', 'w+') as f:
         json.dump(welcomemsg, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/goodbye.json', 'w+') as f:
+    with open(f'isobot/db/config/goodbye.json', 'w+') as f:
         json.dump(goodbyemsg, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/linkblocker.json', 'w+') as f:
+    with open(f'isobot/db/config/linkblocker.json', 'w+') as f:
         json.dump(linkblocker, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/passive.json', 'w+') as f:
+    with open(f'isobot/db/config/passive.json', 'w+') as f:
         json.dump(passivemode, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/globalwelcomer.json', 'w+') as f:
+    with open(f'isobot/db/globalwelcomer.json', 'w+') as f:
         json.dump(welcomer, f, indent=4)
   
-    with open(f'/home/notsniped/Downloads/isobot/db/levels.json', 'w+') as f:
+    with open(f'isobot/db/levels.json', 'w+') as f:
         json.dump(levels, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/xp.json', 'w+') as f:
+    with open(f'isobot/db/xp.json', 'w+') as f:
         json.dump(exp, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/warnings.json', 'w+') as f:
+    with open(f'isobot/db/warnings.json', 'w+') as f:
         json.dump(warnings, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/serverbackups.json', 'w+') as f:
+    with open(f'isobot/db/serverbackups.json', 'w+') as f:
         json.dump(serverbackups, f, indent=4)
+    with open(f'isobot/db/autoroles.json', 'w+') as f:
+        json.dump(autoroles, f, indent=4)
 
 def load_data():
     if os.path.isfile(data_filename):
@@ -369,7 +376,7 @@ async def on_ready():
     print('Current working dir: ' + str(os.getcwd()))
     print('------------------')
     try:
-        botpath = "/home/notsniped/Downloads/isobot/main.py"
+        botpath = "isobot/main.py"
         botsize = os.path.getsize(botpath)
         print(f'Bot file size: {botsize}b')
         print('------------------')
@@ -598,19 +605,19 @@ async def on_member_remove(member):
 @client.event
 async def on_guild_join(guild):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"chats (;help) | {str(len(client.guilds))} servers!"), status=discord.Status.online)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
         prefixes = json.load(f)
     prefixes[str(guild.id)] = ';'
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+    with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
 
 @client.event
 async def on_guild_remove(guild):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"chats (;help) | {str(len(client.guilds))} servers!"), status=discord.Status.online)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
         prefixes = json.load(f)
     prefixes.pop(str(guild.id))
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+    with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
 
 @client.event
@@ -643,13 +650,13 @@ async def on_guild_role_delete(role):
 async def on_message(message):
     prefixes = {}
     gd_data = load_guild_data(message.guild.id)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
       prefixes = json.load(f)
     if str(message.guild.id) in prefixes:
       pass
     else:
       prefixes[str(message.guild.id)] = ";"
-      with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+      with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
     ## BOXES DATA ##
     if str(message.author.id) in normalbox:
@@ -1001,7 +1008,7 @@ async def help(ctx, cmdhelp=None):
       p1.set_footer(text='You are viewing page 2 | To get help on a specific command, type in `;help [command name]')
       p2 = Embed(title=f'{emojis.music} Music Commands', description='```join, play, skip, stop, volume, current, pause, queue, shuffle, remove, loop```')
       p2.set_footer(text='You are viewing page 3 | To get help on a specific command, type in `;help [command name]')
-      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, /usercount, invite, uptime```')
+      p3 = Embed(title=f'{emojis.info} Bot Information', description='```session, ping, invites, avatar, userinfo, /usercount invite, uptime```')
       p3.set_footer(text='You are viewing page 4 | To get help on a specific command, type in `;help [command name]')
       p4 = Embed(title=f'{emojis.moderation} Moderation Commands', description='```ban, kick, mute, unmute, warn, warnings, clearwarns, set_level, purge, lock, unlock, nuke```')
       p4.set_footer(text='You are viewing page 5 | To get help on a specific command, type in `;help [command name]')
@@ -3186,10 +3193,10 @@ async def translator(ctx, language:str, *, inputstr:str):
 async def changeprefix(ctx, prefix):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     prefixes[str(ctx.guild.id)] = prefix
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'w') as f:
+    with open('isobot/prefixes.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
     await ctx.send(f'Prefix successfully changed to `{prefix}`')
 
@@ -3349,10 +3356,10 @@ async def changeprefix(ctx:SlashContext, prefix:str):
         raise(MissingPermissions)
     else:
         pass
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     prefixes[str(ctx.guild.id)] = prefix
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'w') as f:
+    with open('isobot/prefixes.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
     await ctx.send(f'Prefix successfully changed to `{prefix}`')
 
