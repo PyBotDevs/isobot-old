@@ -49,7 +49,6 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
-    'brainfuck',
     'dickson',
     'class'
 ]
