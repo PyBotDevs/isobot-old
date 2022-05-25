@@ -1015,7 +1015,7 @@ async def help(ctx, cmdhelp=None):
       p5.set_footer(text='You are viewing page 6 | To get help on a specific command, type in `;help [command name]')
       p6 = Embed(title=f'{emojis.reddit} Reddit Commands', description='```meme, linuxmeme, nothecker, aww, softwaregore, ihadastroke```')
       p6.set_footer(text='You are viewing page 7 | To get help on a specific command, type in `;help [command name]')
-      p7 = Embed(title=f'{emojis.edit} Server Setup Utility', description='```viewsettings, setfeature, changeprefix, /autorole, setlevelupchannel, /welcomemsg, /goodbyemsg, /autowelcome, linkblocker```')
+      p7 = Embed(title=f'{emojis.edit} Server Setup Utility', description='```viewsettings, setfeature, changeprefix, setlevelupchannel, /welcomemsg, /goodbyemsg, /autowelcome, linkblocker```')
       p7.set_footer(text='You are viewing page 8 | To get help on a specific command, type in `;help [command name]')
       pages = [p0, p1, p2, p3, p4, p5, p6, p7]
       message = await ctx.send(embed = p0)
@@ -1133,7 +1133,6 @@ async def help(ctx, cmdhelp=None):
     elif cmdhelp == 'use': await ctx.send(embed=returnhelp(cmdhelp, helpdb.use1, 4, "everyone"))
     elif cmdhelp == 'welcomemsg': await ctx.send(embed=returnhelp(cmdhelp, '`/welcomemsg <Message>` (Slash Command)', 0, "Server Administrators"))
     elif cmdhelp == 'goodbyemsg': await ctx.send(embed=returnhelp(cmdhelp, '`/goodbyemsg <Message>` (Slash Command)', 0, "Server Administrators"))
-    elif cmdhelp == 'autorole': await ctx.send(embed=returnhelp(cmdhelp, '`/autorole <Role>` (Slash Command)', 0, "Server Administrators"))
     elif cmdhelp == 'linkblocker': await ctx.send(embed=returnhelp(cmdhelp, helpdb.linkblock1, 0, "Server Administrators"))
     elif cmdhelp == 'giveaway': await ctx.send(embed=returnhelp(cmdhelp, ';giveaway', 0, "Moderators"))
     elif cmdhelp == 'reroll': await ctx.send(embed=returnhelp(cmdhelp, ';reroll [channel] [message ID]', 0, "Moderators"))
@@ -3827,6 +3826,24 @@ async def vote(ctx:SlashContext):
     slashCommandsIssued += 1
     e = Embed(title='Vote for isobot on DBL and top.gg', description=f'Discord Bot List: https://discordbotlist.com/bots/halloween-isobot \ntop.gg: https://top.gg/bot/896437848176230411/vote', color=theme_color)
     await ctx.send(embed=e)
+
+@slash.slash(
+  name='autorole',
+  description='Gives new members the mentioned role',
+  options=[
+    create_option(name='role', description='What role do you want to give? (leave empty to disable)', option_type=8, required=False)
+  ]
+)
+async def autorole(ctx:SlashContext, role:discord.Role):
+  if role == None:
+    autoroles[str(ctx.guild.id)] = '0'
+    savejson()
+    await ctx.send(":white_check_mark: Autoroles successfully disabled.")
+  else:
+    r_id = role.id
+    autoroles[str(ctx.guild.id)] = str(r_id)
+    savejson()
+    await ctx.send(f":white_check_mark: Now all new users will get the \"{role.name}\" role.")
 
 #Execution
 keep_alive()
