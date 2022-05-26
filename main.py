@@ -3842,6 +3842,7 @@ async def vote(ctx:SlashContext):
 async def autorole(ctx:SlashContext, role:discord.Role):
   if not ctx.author.guild_permissions.administrator:
     await ctx.send(':x: You need administrator permissions to do this.', hidden=True)
+    return
   if role == None:
     autoroles[str(ctx.guild.id)] = 0
     savejson()
