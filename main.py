@@ -589,6 +589,10 @@ async def on_member_join(member):
     else:
         channel = client.get_channel(welcomer[str(member.guild.id)])
         await channel.send(f'{member.mention} has joined {member.guild}!')
+    if autoroles[str(member.guild.id)] == 0:
+      pass
+    else:
+      await member.add_roles(autoroles[str(member.guild.id)], reason="Server autorole")
 
 @client.event
 async def on_member_remove(member):
@@ -3849,7 +3853,7 @@ async def autorole(ctx:SlashContext, role:discord.Role):
     await ctx.send(":white_check_mark: Autoroles successfully disabled.")
   else:
     r_id = role.id
-    autoroles[str(ctx.guild.id)] = str(r_id)
+    autoroles[str(ctx.guild.id)] = r_id
     savejson()
     await ctx.send(f":white_check_mark: Now all new users will get the \"{role.name}\" role.")
 
