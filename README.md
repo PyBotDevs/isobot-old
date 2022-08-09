@@ -1,4 +1,7 @@
 # isobot (Version 2022.501.0)
+
+### *NOTE: THIS REPOSITORY IS NOT BEING MAINTAINED ANYMORE! For the latest isobot updates, go to our [new repository](https://github.com/PyBotDevs/isobot-lazer).*
+
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
 To run it, go into the last line and put the bot
