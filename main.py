@@ -41,7 +41,7 @@ class emojis:
     music = '<:isomusic:956175023968751696>'
     reddit = '<:isoreddit:956176599693262888>'
     stream = '<:isostream:956175023817768963>'
-with open('/home/notsniped/Downloads/isobot/defaultswear.json', 'r') as f:
+with open('isobot/defaultswear.json', 'r') as f:
   imp = json.load(f)
   global bad
   bad = list(imp.keys())
@@ -49,7 +49,8 @@ whitelist = [
     'document',
     'cucumber',
     'sussex',
-    'dickson'
+    'dickson',
+    'class'
 ]
 links = [
     'http://',
@@ -70,10 +71,10 @@ if os.name == 'nt':
     os.system('cls')
 else:
     os.system('clear')
-owner = ''
+owner = 'notsniped#4573'
 homedir = os.path.expanduser("~")
 def get_prefix(client, message):
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     return prefixes[str(message.guild.id)]
 client = commands.Bot(command_prefix=(get_prefix), intents=intents)
@@ -102,10 +103,10 @@ count = 0
 theme_color = 0x8124af
 color_success = 0x77b255
 color_fail = 0xc92424
-loggerHandler_path = '/home/notsniped/Downloads/isobot/botLog/log.txt'
-errorHandler_path = "/home/notsniped/Downloads/isobot/botLog/errors.txt"
-mainDB_path = '/home/notsniped/Downloads/isobot/database.pickle'
-configDB_path = '/home/notsniped/Downloads/isobot/config.pickle'
+loggerHandler_path = 'isobot/botLog/log.txt'
+errorHandler_path = "isobot/botLog/errors.txt"
+mainDB_path = 'isobot/database.pickle'
+configDB_path = 'isobot/config.pickle'
 error_display = '<:Isobot_Error:914807604511924224>'
 warning_display = '<:Isobot_Warning:914807514837708852>'
 ### Functions and classes ###
@@ -173,85 +174,90 @@ class colors:
     end = '\033[0m'
   
 ## BADGES ##
-with open('/home/notsniped/Downloads/isobot/db/badges/prestige.json', 'r') as f:
+with open('isobot/db/badges/prestige.json', 'r') as f:
     global prestige_conf
     prestige_conf = json.load(f)
 ## BOXES ##
-with open('/home/notsniped/Downloads/isobot/db/boxes/normalbox.json', 'r') as f:
+with open('isobot/db/boxes/normalbox.json', 'r') as f:
     global normalbox
     normalbox = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/boxes/probox.json', 'r') as f:
+with open('isobot/db/boxes/probox.json', 'r') as f:
     global probox
     probox = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/boxes/devbox.json', 'r') as f:
+with open('isobot/db/boxes/devbox.json', 'r') as f:
     global devbox
     devbox = json.load(f)
 ## CONFIGURATION ##
-with open('/home/notsniped/Downloads/isobot/db/config/levelup.json', 'r') as f:
+with open('isobot/db/config/levelup.json', 'r') as f:
     global levelupchannel
     levelupchannel = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/welcomer.json', 'r') as f:
+with open('isobot/db/config/welcomer.json', 'r') as f:
     global welcomemsg
     welcomemsg = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/goodbye.json', 'r') as f:
+with open('isobot/db/config/goodbye.json', 'r') as f:
     global goodbyemsg
     goodbyemsg = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/linkblocker.json', 'r') as f:
+with open('isobot/db/config/linkblocker.json', 'r') as f:
     global linkblocker
     linkblocker = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/config/passive.json', 'r') as f:
+with open('isobot/db/config/passive.json', 'r') as f:
     global passivemode
     passivemode = json.load(f)
-with open('/home/notsniped/Downloads/isobot/db/globalwelcomer.json', 'r') as f:
+with open('isobot/db/globalwelcomer.json', 'r') as f:
     global welcomer
     welcomer = json.load(f)
 
-with open(f'/home/notsniped/Downloads/isobot/db/levels.json', 'r') as f:
+with open(f'isobot/db/levels.json', 'r') as f:
     global levels
     levels = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/xp.json', 'r') as f:
+with open(f'isobot/db/xp.json', 'r') as f:
     global exp
     exp = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/warnings.json', 'r') as f:
+with open(f'isobot/db/warnings.json', 'r') as f:
     global warnings
     warnings = json.load(f)
-with open(f'/home/notsniped/Downloads/isobot/db/serverbackups.json', 'r') as f:
+with open(f'isobot/db/serverbackups.json', 'r') as f:
     global serverbackups
     serverbackups = json.load(f)
+with open(f'isobot/db/autoroles.json', 'r') as f:
+    global autoroles
+    autoroles = json.load(f)
 
 def savejson():
     ## BADGES ##
-    with open(f'/home/notsniped/Downloads/isobot/db/badges/prestige.json', 'w+') as f:
+    with open(f'isobot/db/badges/prestige.json', 'w+') as f:
         json.dump(prestige_conf, f, indent=4)
     ## BOXES ##
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/normalbox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/normalbox.json', 'w+') as f:
         json.dump(normalbox, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/probox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/probox.json', 'w+') as f:
         json.dump(probox, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/boxes/devbox.json', 'w+') as f:
+    with open(f'isobot/db/boxes/devbox.json', 'w+') as f:
         json.dump(devbox, f, indent=4)
     ## CONFIGURATION ##
-    with open(f'/home/notsniped/Downloads/isobot/db/config/levelup.json', 'w+') as f:
+    with open(f'isobot/db/config/levelup.json', 'w+') as f:
         json.dump(levelupchannel, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/welcomer.json', 'w+') as f:
+    with open(f'isobot/db/config/welcomer.json', 'w+') as f:
         json.dump(welcomemsg, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/goodbye.json', 'w+') as f:
+    with open(f'isobot/db/config/goodbye.json', 'w+') as f:
         json.dump(goodbyemsg, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/linkblocker.json', 'w+') as f:
+    with open(f'isobot/db/config/linkblocker.json', 'w+') as f:
         json.dump(linkblocker, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/config/passive.json', 'w+') as f:
+    with open(f'isobot/db/config/passive.json', 'w+') as f:
         json.dump(passivemode, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/globalwelcomer.json', 'w+') as f:
+    with open(f'isobot/db/globalwelcomer.json', 'w+') as f:
         json.dump(welcomer, f, indent=4)
   
-    with open(f'/home/notsniped/Downloads/isobot/db/levels.json', 'w+') as f:
+    with open(f'isobot/db/levels.json', 'w+') as f:
         json.dump(levels, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/xp.json', 'w+') as f:
+    with open(f'isobot/db/xp.json', 'w+') as f:
         json.dump(exp, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/warnings.json', 'w+') as f:
+    with open(f'isobot/db/warnings.json', 'w+') as f:
         json.dump(warnings, f, indent=4)
-    with open(f'/home/notsniped/Downloads/isobot/db/serverbackups.json', 'w+') as f:
+    with open(f'isobot/db/serverbackups.json', 'w+') as f:
         json.dump(serverbackups, f, indent=4)
+    with open(f'isobot/db/autoroles.json', 'w+') as f:
+        json.dump(autoroles, f, indent=4)
 
 def load_data():
     if os.path.isfile(data_filename):
@@ -369,7 +375,7 @@ async def on_ready():
     print('Current working dir: ' + str(os.getcwd()))
     print('------------------')
     try:
-        botpath = "/home/notsniped/Downloads/isobot/main.py"
+        botpath = "isobot/main.py"
         botsize = os.path.getsize(botpath)
         print(f'Bot file size: {botsize}b')
         print('------------------')
@@ -583,6 +589,10 @@ async def on_member_join(member):
     else:
         channel = client.get_channel(welcomer[str(member.guild.id)])
         await channel.send(f'{member.mention} has joined {member.guild}!')
+    if autoroles[str(member.guild.id)] == 0:
+      pass
+    else:
+      await member.add_roles(autoroles[str(member.guild.id)], reason="Server autorole")
 
 @client.event
 async def on_member_remove(member):
@@ -598,19 +608,19 @@ async def on_member_remove(member):
 @client.event
 async def on_guild_join(guild):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"chats (;help) | {str(len(client.guilds))} servers!"), status=discord.Status.online)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
         prefixes = json.load(f)
     prefixes[str(guild.id)] = ';'
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+    with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
 
 @client.event
 async def on_guild_remove(guild):
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"chats (;help) | {str(len(client.guilds))} servers!"), status=discord.Status.online)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
         prefixes = json.load(f)
     prefixes.pop(str(guild.id))
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+    with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
 
 @client.event
@@ -643,13 +653,13 @@ async def on_guild_role_delete(role):
 async def on_message(message):
     prefixes = {}
     gd_data = load_guild_data(message.guild.id)
-    with open("/home/notsniped/Downloads/isobot/prefixes.json", 'r') as f:
+    with open("isobot/prefixes.json", 'r') as f:
       prefixes = json.load(f)
     if str(message.guild.id) in prefixes:
       pass
     else:
       prefixes[str(message.guild.id)] = ";"
-      with open("/home/notsniped/Downloads/isobot/prefixes.json", 'w') as f:
+      with open("isobot/prefixes.json", 'w') as f:
         json.dump(prefixes, f, indent=4)
     ## BOXES DATA ##
     if str(message.author.id) in normalbox:
@@ -694,6 +704,10 @@ async def on_message(message):
         pass
     else:
         welcomer[str(message.guild.id)] = 0
+    if str(message.guild.id) in autoroles:
+        pass
+    else:
+        autoroles[str(message.guild.id)] = 0
     ## LEVELING SYSTEM ##
     if str(message.guild.id) in levels:
         pass
@@ -1009,7 +1023,7 @@ async def help(ctx, cmdhelp=None):
       p5.set_footer(text='You are viewing page 6 | To get help on a specific command, type in `;help [command name]')
       p6 = Embed(title=f'{emojis.reddit} Reddit Commands', description='```meme, linuxmeme, nothecker, aww, softwaregore, ihadastroke```')
       p6.set_footer(text='You are viewing page 7 | To get help on a specific command, type in `;help [command name]')
-      p7 = Embed(title=f'{emojis.edit} Server Setup Utility', description='```viewsettings, setfeature, changeprefix, setlevelupchannel, /welcomemsg, /goodbyemsg, /autowelcome, linkblocker```')
+      p7 = Embed(title=f'{emojis.edit} Server Setup Utility', description='```viewsettings, setfeature, changeprefix, /autorole, setlevelupchannel, /welcomemsg, /goodbyemsg, /autowelcome, linkblocker```')
       p7.set_footer(text='You are viewing page 8 | To get help on a specific command, type in `;help [command name]')
       pages = [p0, p1, p2, p3, p4, p5, p6, p7]
       message = await ctx.send(embed = p0)
@@ -1127,6 +1141,7 @@ async def help(ctx, cmdhelp=None):
     elif cmdhelp == 'use': await ctx.send(embed=returnhelp(cmdhelp, helpdb.use1, 4, "everyone"))
     elif cmdhelp == 'welcomemsg': await ctx.send(embed=returnhelp(cmdhelp, '`/welcomemsg <Message>` (Slash Command)', 0, "Server Administrators"))
     elif cmdhelp == 'goodbyemsg': await ctx.send(embed=returnhelp(cmdhelp, '`/goodbyemsg <Message>` (Slash Command)', 0, "Server Administrators"))
+    elif cmdhelp == 'autorole': await ctx.send(embed=returnhelp(cmdhelp, '`/autorole <Role>` (Slash Command)', 0, "Server Administrators"))
     elif cmdhelp == 'linkblocker': await ctx.send(embed=returnhelp(cmdhelp, helpdb.linkblock1, 0, "Server Administrators"))
     elif cmdhelp == 'giveaway': await ctx.send(embed=returnhelp(cmdhelp, ';giveaway', 0, "Moderators"))
     elif cmdhelp == 'reroll': await ctx.send(embed=returnhelp(cmdhelp, ';reroll [channel] [message ID]', 0, "Moderators"))
@@ -3186,10 +3201,10 @@ async def translator(ctx, language:str, *, inputstr:str):
 async def changeprefix(ctx, prefix):
     global prefixCommandsIssued
     prefixCommandsIssued += 1
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     prefixes[str(ctx.guild.id)] = prefix
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'w') as f:
+    with open('isobot/prefixes.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
     await ctx.send(f'Prefix successfully changed to `{prefix}`')
 
@@ -3349,10 +3364,10 @@ async def changeprefix(ctx:SlashContext, prefix:str):
         raise(MissingPermissions)
     else:
         pass
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'r') as f:
+    with open('isobot/prefixes.json', 'r') as f:
         prefixes = json.load(f)
     prefixes[str(ctx.guild.id)] = prefix
-    with open('/home/notsniped/Downloads/isobot/prefixes.json', 'w') as f:
+    with open('isobot/prefixes.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
     await ctx.send(f'Prefix successfully changed to `{prefix}`')
 
@@ -3820,6 +3835,27 @@ async def vote(ctx:SlashContext):
     slashCommandsIssued += 1
     e = Embed(title='Vote for isobot on DBL and top.gg', description=f'Discord Bot List: https://discordbotlist.com/bots/halloween-isobot \ntop.gg: https://top.gg/bot/896437848176230411/vote', color=theme_color)
     await ctx.send(embed=e)
+
+@slash.slash(
+  name='autorole',
+  description='Gives new members the mentioned role',
+  options=[
+    create_option(name='role', description='What role do you want to give? (leave empty to disable)', option_type=8, required=False)
+  ]
+)
+async def autorole(ctx:SlashContext, role:discord.Role):
+  if not ctx.author.guild_permissions.administrator:
+    await ctx.send(':x: You need administrator permissions to do this.', hidden=True)
+    return
+  if role == None:
+    autoroles[str(ctx.guild.id)] = 0
+    savejson()
+    await ctx.send(":white_check_mark: Autoroles successfully disabled.")
+  else:
+    r_id = role.id
+    autoroles[str(ctx.guild.id)] = r_id
+    savejson()
+    await ctx.send(f":white_check_mark: Now all new users will get the \"{role.name}\" role.")
 
 #Execution
 keep_alive()
