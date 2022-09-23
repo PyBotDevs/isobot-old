@@ -1,6 +1,6 @@
-# isobot (Version 2022.501.0)
+# isobot (Version 2022.921.0)
 
-### *NOTE: THIS REPOSITORY IS NOT BEING MAINTAINED ANYMORE! For the latest isobot updates, go to our [new repository](https://github.com/PyBotDevs/isobot-lazer).*
+### *NOTE: WORK ON THIS REPOSITORY HAS BEEN CONCLUDED! For the latest isobot updates, go to our [new isobot codebase repository](https://github.com/PyBotDevs/isobot).*
 
 isobot is a Discord bot written in Python and is used to make your Discord experience better!
 It's prefix is ";", and you can set a custom prefix as well.
@@ -34,4 +34,4 @@ If for some reason, the main windows_installer does not work, try running window
 
 • Reddit commands (meme, softwaregore, linuxmeme, nothecker, aww, ihadastroke)
 
-### ✅ This is currently in main release stream. Pull requests and issues are welcome!
+### ✅ This codebase's development has been concluded. Thank you for following along! For new updates on isobot's new codebase, check our new repository: [PyBotDevs/isobot](https://github.com/PyBotDevs/isobot)
